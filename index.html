@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mundial de Fútbol</title>
+<style>
+  :root {
+    --navy-deep: #050d1f;
+    --navy-mid: #0b1f3d;
+    --gold: #f2a93b;
+    --gold-warm: #ffcf6b;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  body {
+    position: relative;
+    background:
+      radial-gradient(ellipse 900px 700px at 88% 8%, rgba(255, 201, 107, 0.35), transparent 60%),
+      radial-gradient(ellipse 600px 500px at 8% 45%, rgba(120, 170, 255, 0.10), transparent 65%),
+      linear-gradient(160deg, var(--navy-mid) 0%, var(--navy-deep) 55%, #020610 100%);
+  }
+
+  /* Estrellas / destellos estáticos */
+  .sparkle {
+    position: absolute;
+    background: var(--gold-warm);
+    clip-path: polygon(50% 0%, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0% 50%, 39% 39%);
+    opacity: 0.7;
+  }
+
+  /* Reflectores de estadio */
+  .stadium-light {
+    position: absolute;
+    bottom: 30%;
+    width: 260px;
+    height: 260px;
+    background: radial-gradient(circle, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0.08) 45%, transparent 70%);
+    filter: blur(2px);
+    opacity: 0.55;
+  }
+
+  .stadium-light.left { left: -60px; }
+  .stadium-light.right { right: -60px; }
+
+  /* Silueta del estadio en el horizonte */
+  .stadium-silhouette {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 38%;
+    background: linear-gradient(to top, rgba(2, 6, 16, 0.75), transparent);
+  }
+
+  .stadium-silhouette::before,
+  .stadium-silhouette::after {
+    content: "";
+    position: absolute;
+    bottom: 22%;
+    width: 45%;
+    height: 2px;
+    background: linear-gradient(to right, transparent, rgba(180, 210, 255, 0.18), transparent);
+  }
+
+  .stadium-silhouette::before { left: 0; transform: skewY(-2deg); }
+  .stadium-silhouette::after { right: 0; transform: skewY(2deg); }
+
+  /* Confeti estático */
+  .confetti {
+    position: absolute;
+    width: 6px;
+    height: 10px;
+    opacity: 0.5;
+  }
+
+  /* Viñeta general para profundidad */
+  .vignette {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.45) 100%);
+    pointer-events: none;
+  }
+
+  /* --- Posiciones fijas de destellos --- */
+  .sparkle:nth-of-type(1)  { top: 8%;  left: 12%; width: 10px; height: 10px; background: #ffcf6b; }
+  .sparkle:nth-of-type(2)  { top: 15%; left: 78%; width: 7px;  height: 7px;  background: #f2a93b; }
+  .sparkle:nth-of-type(3)  { top: 22%; left: 34%; width: 6px;  height: 6px;  background: #ffe6b0; }
+  .sparkle:nth-of-type(4)  { top: 6%;  left: 55%; width: 8px;  height: 8px;  background: #ffcf6b; }
+  .sparkle:nth-of-type(5)  { top: 40%; left: 6%;  width: 9px;  height: 9px;  background: #f2a93b; }
+  .sparkle:nth-of-type(6)  { top: 33%; left: 90%; width: 6px;  height: 6px;  background: #ffe6b0; }
+  .sparkle:nth-of-type(7)  { top: 52%; left: 20%; width: 5px;  height: 5px;  background: #ffcf6b; }
+  .sparkle:nth-of-type(8)  { top: 60%; left: 70%; width: 8px;  height: 8px;  background: #f2a93b; }
+  .sparkle:nth-of-type(9)  { top: 12%; left: 45%; width: 5px;  height: 5px;  background: #ffe6b0; }
+  .sparkle:nth-of-type(10) { top: 70%; left: 88%; width: 7px;  height: 7px;  background: #ffcf6b; }
+  .sparkle:nth-of-type(11) { top: 25%; left: 62%; width: 9px;  height: 9px;  background: #f2a93b; }
+  .sparkle:nth-of-type(12) { top: 48%; left: 40%; width: 6px;  height: 6px;  background: #ffe6b0; }
+
+  /* --- Posiciones fijas de confeti --- */
+  .confetti:nth-of-type(13) { top: 18%; left: 25%; background: #4ea8de; transform: rotate(20deg); }
+  .confetti:nth-of-type(14) { top: 35%; left: 65%; background: #e63946; transform: rotate(-15deg); }
+  .confetti:nth-of-type(15) { top: 10%; left: 82%; background: #4caf50; transform: rotate(40deg); }
+  .confetti:nth-of-type(16) { top: 55%; left: 15%; background: #f2a93b; transform: rotate(-30deg); }
+  .confetti:nth-of-type(17) { top: 45%; left: 92%; background: #4ea8de; transform: rotate(10deg); }
+  .confetti:nth-of-type(18) { top: 28%; left: 8%;  background: #e63946; transform: rotate(-45deg); }
+  .confetti:nth-of-type(19) { top: 62%; left: 50%; background: #ffcf6b; transform: rotate(25deg); }
+  .confetti:nth-of-type(20) { top: 5%;  left: 60%; background: #4caf50; transform: rotate(-20deg); }
+</style>
+</head>
+<body>
+
+  <div class="stadium-light left"></div>
+  <div class="stadium-light right"></div>
+  <div class="stadium-silhouette"></div>
+
+  <div class="sparkle"></div>
+  <div class="sparkle"></div>
+  <div class="sparkle"></div>
+  <div class="sparkle"></div>
+  <div class="sparkle"></div>
+  <div class="sparkle"></div>
+  <div class="sparkle"></div>
+  <div class="sparkle"></div>
+  <div class="sparkle"></div>
+  <div class="sparkle"></div>
+  <div class="sparkle"></div>
+  <div class="sparkle"></div>
+
+  <div class="confetti"></div>
+  <div class="confetti"></div>
+  <div class="confetti"></div>
+  <div class="confetti"></div>
+  <div class="confetti"></div>
+  <div class="confetti"></div>
+  <div class="confetti"></div>
+  <div class="confetti"></div>
+
+  <div class="vignette"></div>
+
+</body>
+</html>
