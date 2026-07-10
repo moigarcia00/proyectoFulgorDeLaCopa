@@ -1,0 +1,35 @@
+/* footer.css */
+.main-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    background: #0b111e;
+    
+    border-top: 3px solid #f1c40f; 
+    
+    box-shadow: 0 -5px 15px rgba(241, 196, 15, 0.15);
+    
+    text-align: center;
+    color: #475569;
+    font-size: 0.85rem;
+    z-index: 1000;
+}
+
+.footer-links a { 
+    color: #94a3b8; 
+    text-decoration: none; 
+    margin: 0 10px; 
+    transition: 0.3s;
+}
+
+.footer-links a:hover { 
+    color: #f1c40f; 
+}
+
+.api-credit a { 
+    color: #f1c40f; 
+    text-decoration: underline;
+    font-weight: 600;
+}
