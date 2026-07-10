@@ -1,0 +1,85 @@
+:root {
+  --bg-dark: #020b1e;
+  --gold-main: #dfb141;
+  --gold-glow: #fffbdf;
+  --blue-glow: #0055a5;
+  --font-nav: "Segoe UI", Arial, sans-serif;
+}
+
+nav {
+  margin: 0;
+  padding: 0;
+}
+
+.worldNavbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--bg-dark);
+  padding: 0 40px;
+  border-bottom: 1px solid rgba(0, 85, 165, 0.4);
+  font-family: var(--font-nav);
+  box-sizing: border-box;
+  width: 100%;
+  height: 75px;
+}
+
+.navLogoContainer {
+  display: flex;
+  align-items: center;
+  gap: 0px;
+  flex: 1;
+}
+
+.navTitle {
+  color: var(--gold-main);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: lowercase;
+  letter-spacing: 0.5px;
+}
+
+.navLogoImg {
+  height: 68px;
+  width: auto;
+  object-fit: contain;
+  margin-left: -12px;
+  margin-right: -12px;
+}
+
+.navLinks {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  flex: 2;
+}
+
+.navItem {
+  color: var(--gold-main);
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 8px 18px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  transition: all 0.25s ease-in-out;
+}
+
+.navItem:hover {
+  color: var(--gold-glow);
+  background-color: rgba(223, 177, 65, 0.08);
+  border-color: rgba(223, 177, 65, 0.25);
+  box-shadow: 0 0 12px rgba(223, 177, 65, 0.15);
+}
+
+.navItem.active {
+  border-color: var(--gold-main);
+  background-color: rgba(223, 177, 65, 0.04);
+}
+
+.worldNavbar::after {
+  content: "";
+  flex: 1;
+  display: block;
+}
