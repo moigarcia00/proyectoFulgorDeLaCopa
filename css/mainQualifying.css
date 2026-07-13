@@ -1,4 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap");
+
+:root {
+    --nav-height: 38px;
+    --footer-height: 82px;
+    --line-color: rgba(148, 163, 184, 0.3);
+}
 
 * {
     box-sizing: border-box;
@@ -8,67 +14,68 @@
 }
 
 body {
-    min-height: 100vh;
+    min-height: 100dvh;
     color: #f8fafc;
     background:
         radial-gradient(circle at top center, rgba(37, 99, 235, 0.22), transparent 34%),
         linear-gradient(135deg, #07111f 0%, #0b1b3d 48%, #050b16 100%);
-    overflow-x: auto;
+    overflow: hidden;
 }
 
-.page {
-    min-width: 1640px;
-    min-height: 100vh;
-    padding: 12px 18px 22px;
+/* Contenedor principal: reserva espacio para navbar y footer fijo */
+main.page {
+    width: 100%;
+    height: calc(100dvh - var(--nav-height) - var(--footer-height));
+    min-width: 0;
+    min-height: 0;
+    max-height: calc(100dvh - var(--nav-height) - var(--footer-height));
+    padding: 10px clamp(10px, 1.2vw, 22px) 14px;
+    overflow: hidden;
 }
 
+/* Título */
 .header {
-    height: 118px;
+    height: clamp(76px, 11vh, 108px);
     text-align: center;
 }
 
-.header span {
-    color: #facc15;
-    font-size: 12px;
-    font-weight: 800;
-    letter-spacing: 3px;
-}
-
 .header h1 {
-    margin-top: 4px;
-    font-size: 52px;
-    line-height: 1;
+    margin-top: 2px;
+    color: #f8fafc;
+    font-size: clamp(26px, 2.8vw, 52px);
     font-weight: 800;
-    letter-spacing: 4px;
+    line-height: 1.1;
+    letter-spacing: clamp(1px, 0.22vw, 4px);
 }
 
-.header p {
-    margin-top: 10px;
-    color: #93b4e7;
-    font-size: 15px;
-    font-weight: 600;
+.header span {
+    display: block;
+    margin-top: 6px;
+    color: #facc15;
+    font-size: clamp(9px, 0.7vw, 12px);
+    font-weight: 800;
+    letter-spacing: clamp(1.5px, 0.16vw, 3px);
 }
 
+/* Estructura general de las llaves */
 .bracket {
-    height: calc(100vh - 150px);
-    min-height: 720px;
+    height: calc(100% - clamp(76px, 11vh, 108px));
+    min-height: 0;
     display: grid;
-    grid-template-columns: minmax(620px, 1fr) 260px minmax(620px, 1fr);
-    gap: 20px;
+    grid-template-columns: minmax(0, 1fr) clamp(180px, 14vw, 260px) minmax(0, 1fr);
+    gap: clamp(8px, 1vw, 20px);
 }
 
 .side {
-    display: grid;
-    gap: 16px;
+    min-width: 0;
     height: 100%;
-}
-
-.left,
-.right {
-    grid-template-columns: repeat(4, minmax(145px, 1fr));
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(6px, 0.9vw, 16px);
 }
 
 .column {
+    min-width: 0;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -78,21 +85,23 @@ body {
 
 .pair {
     flex: 1;
+    min-height: 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 12px;
+    gap: 5px;
     position: relative;
 }
 
+/* Tarjetas de partido */
 .card {
-    width: 176px;
-    min-height: 62px;
-    padding: 7px 10px;
-    background: rgba(15, 23, 42, 0.9);
+    width: min(100%, 176px);
+    min-height: 48px;
+    padding: 4px clamp(5px, 0.55vw, 10px);
+    background: rgba(15, 23, 42, 0.92);
     border: 1px solid rgba(148, 163, 184, 0.28);
-    border-radius: 8px;
-    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.28);
+    border-radius: 7px;
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.26);
     position: relative;
     z-index: 2;
 }
@@ -106,8 +115,8 @@ body {
 }
 
 .final-card {
-    width: 220px;
-    min-height: 72px;
+    width: min(100%, 220px);
+    min-height: 60px;
     border-color: rgba(250, 204, 21, 0.72);
     box-shadow:
         0 14px 30px rgba(0, 0, 0, 0.3),
@@ -116,19 +125,19 @@ body {
 
 .match-number {
     position: absolute;
-    top: -17px;
-    right: 8px;
+    top: -14px;
+    right: 6px;
     color: #64748b;
-    font-size: 10px;
+    font-size: clamp(8px, 0.55vw, 10px);
     font-weight: 800;
 }
 
 .team {
-    height: 24px;
+    height: 19px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 8px;
+    gap: 4px;
 }
 
 .team:first-of-type {
@@ -139,31 +148,34 @@ body {
     min-width: 0;
     display: flex;
     align-items: center;
-    gap: 7px;
+    gap: clamp(3px, 0.4vw, 7px);
 }
 
 .flag {
-    width: 22px;
-    height: 15px;
+    width: clamp(14px, 1.15vw, 22px);
+    height: clamp(10px, 0.8vw, 15px);
+    flex: 0 0 auto;
     object-fit: cover;
+    border: 1px solid rgba(148, 163, 184, 0.25);
     border-radius: 2px;
     background: rgba(148, 163, 184, 0.13);
-    border: 1px solid rgba(148, 163, 184, 0.25);
 }
 
 .name {
-    max-width: 110px;
+    min-width: 0;
     overflow: hidden;
+    color: #f8fafc;
+    font-size: clamp(8px, 0.63vw, 12px);
+    font-weight: 800;
     white-space: nowrap;
     text-overflow: ellipsis;
-    font-size: 12px;
-    font-weight: 800;
 }
 
 .score {
-    min-width: 18px;
+    min-width: 14px;
+    color: #f8fafc;
     text-align: right;
-    font-size: 14px;
+    font-size: clamp(10px, 0.75vw, 14px);
     font-weight: 800;
 }
 
@@ -176,7 +188,9 @@ body {
     color: #64748b;
 }
 
+/* Centro y final */
 .center {
+    min-width: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -186,78 +200,92 @@ body {
 .trophy {
     position: absolute;
     top: 0;
-    width: 230px;
+    width: min(100%, 230px);
     text-align: center;
 }
 
 .trophy-icon {
-    width: 82px;
-    height: 82px;
-    margin: 0 auto 12px;
+    width: clamp(54px, 4.5vw, 82px);
+    height: clamp(54px, 4.5vw, 82px);
+    margin: 0 auto 8px;
     display: grid;
     place-items: center;
     border-radius: 50%;
     background: radial-gradient(circle at 35% 25%, #fff7ad, #facc15 48%, #a16207);
     box-shadow:
-        0 0 0 10px rgba(250, 204, 21, 0.08),
-        0 20px 45px rgba(250, 204, 21, 0.24);
-    font-size: 38px;
+        0 0 0 8px rgba(250, 204, 21, 0.08),
+        0 16px 35px rgba(250, 204, 21, 0.24);
+    font-size: clamp(25px, 2vw, 38px);
 }
 
 .trophy span {
     color: #94a3b8;
-    font-size: 12px;
+    font-size: clamp(9px, 0.65vw, 12px);
     font-weight: 800;
-    letter-spacing: 4px;
-}
-
-.trophy h2 {
-    margin-top: 8px;
-    color: #facc15;
-    font-size: 18px;
-    letter-spacing: 1px;
+    letter-spacing: clamp(2px, 0.22vw, 4px);
 }
 
 .final-slot {
-    margin-top: 140px;
+    width: 100%;
+    margin-top: clamp(94px, 13vh, 140px);
+    display: flex;
+    justify-content: center;
 }
 
-.left .card::after {
-    content: "";
-    position: absolute;
-    right: -18px;
-    top: 50%;
-    width: 18px;
-    height: 2px;
-    background: rgba(148, 163, 184, 0.3);
-}
-
+/* Líneas de conexión */
+.left .card::after,
 .right .card::after {
     content: "";
     position: absolute;
-    left: -18px;
     top: 50%;
-    width: 18px;
+    width: clamp(5px, 1vw, 18px);
     height: 2px;
-    background: rgba(148, 163, 184, 0.3);
+    background: var(--line-color);
 }
 
-.left .pair::before {
-    content: "";
-    position: absolute;
-    right: -18px;
-    top: 24%;
-    bottom: 24%;
-    width: 2px;
-    background: rgba(148, 163, 184, 0.3);
+.left .card::after {
+    right: clamp(-18px, -1vw, -5px);
 }
 
+.right .card::after {
+    left: clamp(-18px, -1vw, -5px);
+}
+
+.left .pair::before,
 .right .pair::before {
     content: "";
     position: absolute;
-    left: -18px;
     top: 24%;
     bottom: 24%;
     width: 2px;
-    background: rgba(148, 163, 184, 0.3);
+    background: var(--line-color);
+}
+
+.left .pair::before {
+    right: clamp(-18px, -1vw, -5px);
+}
+
+.right .pair::before {
+    left: clamp(-18px, -1vw, -5px);
+}
+
+/* Pantallas más estrechas */
+@media (max-width: 1050px) {
+    .bracket {
+        grid-template-columns: minmax(0, 1fr) 160px minmax(0, 1fr);
+        gap: 6px;
+    }
+
+    .side {
+        gap: 4px;
+    }
+
+    .card {
+        padding: 3px 4px;
+        border-radius: 6px;
+    }
+
+    .team {
+        height: 18px;
+    }
 }
