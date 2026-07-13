@@ -1,0 +1,36 @@
+h1  {
+        color:#dfb141;
+        display:flex;
+        justify-content: center;
+        margin-top: 30px;
+    }
+
+.selector   {
+                display:flex;
+                justify-content: space-evenly;
+                margin-top: 60px;
+
+            }
+
+.left       {
+                font-size: 30px;
+                padding: 25px;
+                border-radius: 30px;
+                background-color: #dfb141;
+                
+                
+            }
+
+.center     {
+                font-size: 30px;
+                padding: 25px;
+                border-radius: 30px;
+                background-color: aquamarine;
+            }
+                
+.right      {
+                font-size: 30px;
+                padding: 25px;
+                border-radius: 30px;
+                background-color:brown;
+            }
