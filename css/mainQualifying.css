@@ -1,0 +1,263 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Poppins, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    color: #f8fafc;
+    background:
+        radial-gradient(circle at top center, rgba(37, 99, 235, 0.22), transparent 34%),
+        linear-gradient(135deg, #07111f 0%, #0b1b3d 48%, #050b16 100%);
+    overflow-x: auto;
+}
+
+.page {
+    min-width: 1640px;
+    min-height: 100vh;
+    padding: 12px 18px 22px;
+}
+
+.header {
+    height: 118px;
+    text-align: center;
+}
+
+.header span {
+    color: #facc15;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 3px;
+}
+
+.header h1 {
+    margin-top: 4px;
+    font-size: 52px;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: 4px;
+}
+
+.header p {
+    margin-top: 10px;
+    color: #93b4e7;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.bracket {
+    height: calc(100vh - 150px);
+    min-height: 720px;
+    display: grid;
+    grid-template-columns: minmax(620px, 1fr) 260px minmax(620px, 1fr);
+    gap: 20px;
+}
+
+.side {
+    display: grid;
+    gap: 16px;
+    height: 100%;
+}
+
+.left,
+.right {
+    grid-template-columns: repeat(4, minmax(145px, 1fr));
+}
+
+.column {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    position: relative;
+}
+
+.pair {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 12px;
+    position: relative;
+}
+
+.card {
+    width: 176px;
+    min-height: 62px;
+    padding: 7px 10px;
+    background: rgba(15, 23, 42, 0.9);
+    border: 1px solid rgba(148, 163, 184, 0.28);
+    border-radius: 8px;
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.28);
+    position: relative;
+    z-index: 2;
+}
+
+.left .card {
+    margin-left: auto;
+}
+
+.right .card {
+    margin-right: auto;
+}
+
+.final-card {
+    width: 220px;
+    min-height: 72px;
+    border-color: rgba(250, 204, 21, 0.72);
+    box-shadow:
+        0 14px 30px rgba(0, 0, 0, 0.3),
+        0 0 26px rgba(250, 204, 21, 0.12);
+}
+
+.match-number {
+    position: absolute;
+    top: -17px;
+    right: 8px;
+    color: #64748b;
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.team {
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.team:first-of-type {
+    border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+}
+
+.info {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.flag {
+    width: 22px;
+    height: 15px;
+    object-fit: cover;
+    border-radius: 2px;
+    background: rgba(148, 163, 184, 0.13);
+    border: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+.name {
+    max-width: 110px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.score {
+    min-width: 18px;
+    text-align: right;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.winner .name,
+.winner .score {
+    color: #facc15;
+}
+
+.placeholder {
+    color: #64748b;
+}
+
+.center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.trophy {
+    position: absolute;
+    top: 0;
+    width: 230px;
+    text-align: center;
+}
+
+.trophy-icon {
+    width: 82px;
+    height: 82px;
+    margin: 0 auto 12px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 25%, #fff7ad, #facc15 48%, #a16207);
+    box-shadow:
+        0 0 0 10px rgba(250, 204, 21, 0.08),
+        0 20px 45px rgba(250, 204, 21, 0.24);
+    font-size: 38px;
+}
+
+.trophy span {
+    color: #94a3b8;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 4px;
+}
+
+.trophy h2 {
+    margin-top: 8px;
+    color: #facc15;
+    font-size: 18px;
+    letter-spacing: 1px;
+}
+
+.final-slot {
+    margin-top: 140px;
+}
+
+.left .card::after {
+    content: "";
+    position: absolute;
+    right: -18px;
+    top: 50%;
+    width: 18px;
+    height: 2px;
+    background: rgba(148, 163, 184, 0.3);
+}
+
+.right .card::after {
+    content: "";
+    position: absolute;
+    left: -18px;
+    top: 50%;
+    width: 18px;
+    height: 2px;
+    background: rgba(148, 163, 184, 0.3);
+}
+
+.left .pair::before {
+    content: "";
+    position: absolute;
+    right: -18px;
+    top: 24%;
+    bottom: 24%;
+    width: 2px;
+    background: rgba(148, 163, 184, 0.3);
+}
+
+.right .pair::before {
+    content: "";
+    position: absolute;
+    left: -18px;
+    top: 24%;
+    bottom: 24%;
+    width: 2px;
+    background: rgba(148, 163, 184, 0.3);
+}
