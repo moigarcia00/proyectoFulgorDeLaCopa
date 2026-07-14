@@ -4,6 +4,7 @@
   --nav-height: 38px;
   --footer-height: 82px;
   --line-width: 2px;
+  --gutter-width: clamp(180px, 14vw, 260px);
 
   --bg-card: rgba(15, 23, 42, 0.85);
   --border-card: rgba(148, 163, 184, 0.2);
@@ -68,7 +69,7 @@ main.page {
 .bracket {
   height: calc(100% - clamp(76px, 11vh, 108px));
   display: grid;
-  grid-template-columns: minmax(0, 1fr) clamp(180px, 14vw, 260px) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr) var(--gutter-width) minmax(0, 1fr);
   gap: clamp(8px, 1vw, 20px);
 }
 
@@ -91,7 +92,7 @@ main.page {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-around;
   gap: 6px;
   position: relative;
 }
@@ -198,15 +199,14 @@ main.page {
 }
 
 .center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   position: relative;
 }
 
 .trophy {
   position: absolute;
   top: 0;
+  left: 50%;
+  transform: translateX(-50%);
   width: min(100%, 230px);
   text-align: center;
 }
@@ -238,8 +238,11 @@ main.page {
 }
 
 .final-slot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 100%;
-  margin-top: clamp(94px, 13vh, 140px);
   display: flex;
   justify-content: center;
 }
@@ -277,6 +280,21 @@ main.page {
 }
 .right .pair::before {
   left: calc(clamp(5px, 1vw, 18px) * -1);
+}
+
+.side.left .column:last-child .pair::before,
+.side.right .column:first-child .pair::before {
+  display: none;
+}
+
+.side.left .column:last-child .card::after {
+  width: clamp(12px, 1.2vw, 24px);
+  right: calc(clamp(12px, 1.2vw, 24px) * -1);
+}
+
+.side.right .column:first-child .card::after {
+  width: clamp(12px, 1.2vw, 24px);
+  left: calc(clamp(12px, 1.2vw, 24px) * -1);
 }
 
 @media (max-width: 1050px) {

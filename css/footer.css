@@ -3,13 +3,13 @@
   min-height: 92px;
   padding: 20px;
   background-color: var(--bg-dark);
-  border-top: 2px solid rgba(0, 85, 165, 0.4); 
+  border-top: 2px solid rgba(0, 85, 165, 0.4);
   color: #94a3b8;
   text-align: center;
   font-size: 0.75rem;
   position: relative;
   z-index: 10;
-  font-family: var(--font-nav); 
+  font-family: var(--font-nav);
 }
 
 .footer-brand {
