@@ -10,7 +10,7 @@ h1,h2{
     font-family: 'Arial', sans-serif;
 }
 
-p{
+.index-paragraph{
     color: #EFBB20;
     text-align: center;
     width: calc(100% - 300px);
