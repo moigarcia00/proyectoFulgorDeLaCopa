@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  fetch("/proyectoFulgorDeLaCopa/html/nav.html")
+  fetch("../html/nav.html")
     .then((response) => response.text())
     .then((data) => {
       document.getElementById("worldNavbar").innerHTML = data;
