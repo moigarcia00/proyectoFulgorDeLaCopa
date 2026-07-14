@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  fetch("PROYECTOFULGORDELACOPA/html/footer.html")
+  fetch("../html/footer.html")
     .then((response) => response.text())
     .then((data) => {
       const placeholder = document.getElementById("footer-placeholder");
