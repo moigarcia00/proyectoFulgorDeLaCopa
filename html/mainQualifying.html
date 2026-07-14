@@ -5,14 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Fulgor de la Copa</title>
     <link rel="stylesheet" href="../css/index.css" />
-    <link rel="stylesheet" href="../css/main.css" />
     <link rel="stylesheet" href="../css/nav.css" />
     <link rel="stylesheet" href="../css/footer.css" />
+    <link
+      rel="stylesheet"
+      href="../css/mainQualifying.css"
+    />
   </head>
   <body>
     <header>
       <nav id="worldNavbar"></nav>
     </header>
+
+    <main class="page">
+      <header class="header">
+        <h1>FIFA WORLD CUP 2026</h1>
+        <span>FASE DE ELIMINACIÓN DIRECTA</span>
+      </header>
+
+      <section class="bracket">
+        <div class="side left" id="leftSide"></div>
+
+        <div class="center">
+          <div class="trophy">
+            <div class="trophy-icon">🏆</div>
+            <span>FINAL</span>
+          </div>
+
+          <div class="final-slot" id="finalSlot"></div>
+        </div>
+
+        <div class="side right" id="rightSide"></div>
+      </section>
+    </main>
 
     <div class="stadium-light left"></div>
     <div class="stadium-light right"></div>
@@ -39,33 +64,12 @@
     <div class="confetti"></div>
     <div class="confetti"></div>
     <div class="confetti"></div>
-    <main>
-      <img class="iconMundial"
-        src="img/iconMundial.png"
-        alt="Logo de la copa del Mundial de la web Fulgor de la copa"
-      />
-      <h1>¡EL MUNDO ENTRA EN EBULLICIÓN!</h1>
-      <p>
-        Bienvenidos a El Fulgor de la Copa, el epicentro digital definitivo
-        donde la pasión del fútbol rompe todas las fronteras conocidos. El
-        planeta entero se prepara para el torneo más grande de la historia: un
-        formato revolucionario de <span class="highlight">48 selecciones, 3 países anfitriones (Canadá,
-        México y Estados Unidos) y 16 ciudades</span> vibrando al unísono. No seas un
-        simple espectador de la historia; sumérgete en nuestro calendario
-        interactivo, sigue a tus equipos en tiempo real, descubre los secretos
-        de cada sede y asegura tus entradas oficiales desde hoy mismo. La gloria
-        eterna ya tiene un lugar de encuentro... 
-      </p>
-      <h2>¡Siente el fulgor, vive la
-        Copa!</h2> 
-      <img class="imgIndex"
-        src="img/imgIndex.png"
-        alt="Imagen de las diferentes banderas del mundial"/>
-    </main>
+
     <footer id="footer-placeholder"></footer>
 
     <div class="vignette"></div>
     <script src="../js/nav.js"></script>
+    <script src="../js/mainQualifying.js"></script>
     <script src="../js/footer.js"></script>
   </body>
 </html>

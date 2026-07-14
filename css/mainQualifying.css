@@ -1,0 +1,318 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap");
+
+:root {
+  --nav-height: 38px;
+  --footer-height: 82px;
+  --line-width: 2px;
+  --gutter-width: clamp(180px, 14vw, 260px);
+
+  --bg-card: rgba(15, 23, 42, 0.85);
+  --border-card: rgba(148, 163, 184, 0.2);
+  --line-color: rgba(148, 163, 184, 0.25);
+  --text-main: #f8fafc;
+  --text-muted: #64748b;
+  --accent-gold: #facc15;
+  --accent-gold-glow: rgba(250, 204, 21, 0.15);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  min-height: 100dvh;
+  color: var(--text-main);
+  background:
+    radial-gradient(
+      circle at top center,
+      rgba(37, 99, 235, 0.22),
+      transparent 35%
+    ),
+    linear-gradient(135deg, #07111f 0%, #0b1b3d 48%, #050b16 100%);
+  overflow: hidden;
+}
+
+main.page {
+  width: 100%;
+  height: calc(100dvh - var(--nav-height) - var(--footer-height));
+  max-height: calc(100dvh - var(--nav-height) - var(--footer-height));
+  padding: 10px clamp(10px, 1.2vw, 22px) 14px;
+  overflow: hidden;
+}
+
+.header {
+  height: clamp(76px, 11vh, 108px);
+  text-align: center;
+}
+
+.header h1 {
+  margin-top: 2px;
+  color: var(--text-main);
+  font-size: clamp(26px, 2.8vw, 52px);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: clamp(1px, 0.22vw, 4px);
+}
+
+.header span {
+  display: block;
+  margin-top: 6px;
+  color: var(--accent-gold);
+  font-size: clamp(9px, 0.7vw, 12px);
+  font-weight: 800;
+  letter-spacing: clamp(1.5px, 0.16vw, 3px);
+}
+
+.bracket {
+  height: calc(100% - clamp(76px, 11vh, 108px));
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--gutter-width) minmax(0, 1fr);
+  gap: clamp(8px, 1vw, 20px);
+}
+
+.side {
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(6px, 0.9vw, 16px);
+}
+
+.column {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  position: relative;
+}
+
+.pair {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 6px;
+  position: relative;
+}
+
+.card {
+  width: min(100%, 176px);
+  min-height: 48px;
+  padding: 5px clamp(6px, 0.55vw, 12px);
+  background: var(--bg-card);
+  backdrop-filter: blur(4px);
+  border: 1px solid var(--border-card);
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  position: relative;
+  z-index: 2;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.card:hover {
+  border-color: rgba(148, 163, 184, 0.4);
+}
+
+.left .card {
+  margin-left: auto;
+}
+.right .card {
+  margin-right: auto;
+}
+
+.final-card {
+  width: min(100%, 220px);
+  min-height: 62px;
+  border-color: rgba(250, 204, 21, 0.6);
+  box-shadow:
+    0 14px 35px rgba(0, 0, 0, 0.4),
+    0 0 20px var(--accent-gold-glow);
+}
+
+.match-number {
+  position: absolute;
+  top: -14px;
+  right: 6px;
+  color: var(--text-muted);
+  font-size: clamp(8px, 0.55vw, 10px);
+  font-weight: 800;
+}
+
+.team {
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.team:first-of-type {
+  border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+}
+
+.info {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: clamp(4px, 0.4vw, 8px);
+}
+
+.flag {
+  width: clamp(16px, 1.15vw, 22px);
+  height: clamp(11px, 0.8vw, 15px);
+  flex: shrink 0;
+  object-fit: cover;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 2px;
+  background: rgba(148, 163, 184, 0.1);
+}
+
+.name {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--text-main);
+  font-size: clamp(8px, 0.63vw, 12px);
+  font-weight: 700;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.score {
+  min-width: 16px;
+  color: var(--text-main);
+  text-align: right;
+  font-size: clamp(10px, 0.75vw, 14px);
+  font-weight: 800;
+}
+
+.winner .name,
+.winner .score {
+  color: var(--accent-gold);
+}
+
+.placeholder {
+  color: var(--text-muted);
+}
+
+.center {
+  position: relative;
+}
+
+.trophy {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(100%, 230px);
+  text-align: center;
+}
+
+.trophy-icon {
+  width: clamp(54px, 4.5vw, 82px);
+  height: clamp(54px, 4.5vw, 82px);
+  margin: 0 auto 10px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 35% 25%,
+    #fff7ad,
+    var(--accent-gold) 50%,
+    #a16207
+  );
+  box-shadow:
+    0 0 0 8px rgba(250, 204, 21, 0.06),
+    0 16px 35px var(--accent-gold-glow);
+  font-size: clamp(25px, 2vw, 38px);
+}
+
+.trophy span {
+  color: var(--text-muted);
+  font-size: clamp(9px, 0.65vw, 12px);
+  font-weight: 800;
+  letter-spacing: clamp(2px, 0.22vw, 4px);
+}
+
+.final-slot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.left .card::after,
+.right .card::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: clamp(5px, 1vw, 18px);
+  height: var(--line-width);
+  background: var(--line-color);
+}
+
+.left .card::after {
+  right: calc(clamp(5px, 1vw, 18px) * -1);
+}
+.right .card::after {
+  left: calc(clamp(5px, 1vw, 18px) * -1);
+}
+
+.left .pair::before,
+.right .pair::before {
+  content: "";
+  position: absolute;
+  top: 25%;
+  bottom: 25%;
+  width: var(--line-width);
+  background: var(--line-color);
+}
+
+.left .pair::before {
+  right: calc(clamp(5px, 1vw, 18px) * -1);
+}
+.right .pair::before {
+  left: calc(clamp(5px, 1vw, 18px) * -1);
+}
+
+.side.left .column:last-child .pair::before,
+.side.right .column:first-child .pair::before {
+  display: none;
+}
+
+.side.left .column:last-child .card::after {
+  width: clamp(12px, 1.2vw, 24px);
+  right: calc(clamp(12px, 1.2vw, 24px) * -1);
+}
+
+.side.right .column:first-child .card::after {
+  width: clamp(12px, 1.2vw, 24px);
+  left: calc(clamp(12px, 1.2vw, 24px) * -1);
+}
+
+@media (max-width: 1050px) {
+  .bracket {
+    grid-template-columns: minmax(0, 1fr) 160px minmax(0, 1fr);
+    gap: 6px;
+  }
+
+  .side {
+    gap: 4px;
+  }
+
+  .card {
+    padding: 4px 6px;
+    border-radius: 6px;
+  }
+
+  .team {
+    height: 18px;
+  }
+}
