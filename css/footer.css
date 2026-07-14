@@ -1,79 +1,40 @@
-/* footer.css */
-
 .main-footer {
-    position: fixed;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    min-height: 92px;
-    padding: 7px 14px;
-    background: #0b111e;
-    border-top: 3px solid #f1c40f;
-    box-shadow: 0 -5px 15px rgba(241, 196, 15, 0.15);
-    color: #94a3b8;
-    text-align: center;
-    font-family: Poppins, sans-serif;
-    font-size: 0.75rem;
-    line-height: 1.25;
-    z-index: 1000;
-}
-
-.main-footer p,
-.main-footer .footer-links,
-.main-footer .api-credit {
-    margin: 2px 0;
+  width: 100%;
+  min-height: 92px;
+  padding: 20px;
+  background: #0b111e;
+  border-top: 3px solid #f1c40f;
+  color: #94a3b8;
+  text-align: center;
+  font-size: 0.75rem;
+  position: relative;
+  z-index: 10;
 }
 
 .footer-brand {
-    color: #e2e8f0;
-    font-weight: 700;
-}
-
-.footer-links {
-    color: #64748b;
+  color: #e2e8f0;
+  font-weight: 700;
+  margin-bottom: 5px;
 }
 
 .footer-links a {
-    margin: 0 8px;
-    color: #94a3b8;
-    text-decoration: none;
-    transition: color 0.25s ease;
+  color: #94a3b8;
+  text-decoration: none;
+  margin: 0 8px;
+  transition: color 0.3s;
 }
 
-.footer-links a:hover,
-.footer-links a:focus-visible {
-    color: #f1c40f;
-}
-
-.api-credit {
-    color: #64748b;
+.footer-links a:hover {
+  color: #f1c40f;
 }
 
 .api-credit a {
-    color: #f1c40f;
-    font-weight: 600;
-    text-decoration: underline;
-    text-underline-offset: 2px;
+  color: #f1c40f;
+  font-weight: 600;
+  text-decoration: underline;
 }
 
 .copyright {
-    color: #64748b;
-    font-size: 0.7rem;
-}
-
-@media (max-width: 600px) {
-    .main-footer {
-        min-height: 105px;
-        padding: 6px 10px;
-        font-size: 0.68rem;
-    }
-
-    .footer-links a {
-        margin: 0 4px;
-    }
-
-    .copyright {
-        font-size: 0.64rem;
-    }
+  color: #64748b;
+  margin-top: 5px;
 }
