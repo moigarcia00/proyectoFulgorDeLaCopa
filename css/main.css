@@ -1,0 +1,20 @@
+h1, p{
+    color: white;
+    text-align: center;
+    margin:20px 100px;
+}
+.iconMundial{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+.imgIndex{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 500px;
+    margin: 0 auto;
+}
