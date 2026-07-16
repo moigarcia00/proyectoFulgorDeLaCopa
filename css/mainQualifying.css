@@ -25,9 +25,14 @@
 body {
   min-height: 100dvh;
   color: var(--text-main);
-  background:
-    radial-gradient(circle at top center, #2563eb38, transparent 35%),
-    linear-gradient(135deg, #07111f 0%, #0b1b3d 48%, #050b16 100%);
+  /* Ajustamos el gradiente a una opacidad menor (0.4 en lugar de 0.8) */
+  background: 
+    linear-gradient(135deg, rgba(7, 17, 31, 0.4) 0%, rgba(11, 27, 61, 0.4) 48%, rgba(5, 11, 22, 0.4) 100%),
+    url('/img/background.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   overflow: hidden;
 }
 
