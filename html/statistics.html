@@ -41,14 +41,26 @@
     <h1>Estadisticas del Torneo</h1>
     
     <div class="selector">
-      <button type="button" class="left">Equipo Max. Goleador</button>
-      <button type="button" class="center">Jugador Max. Goleador</button>
-      <button type="button" class="right">Equipo Max. Encajados</button>
+      <button type="button" class="left" data-stat="teamScorer">Equipo Max. Goleador</button>
+      <button type="button" class="center" data-stat="playerScorer">Jugador Max. Goleador</button>
+      <button type="button" class="right" data-stat="teamConceded">Equipo Max. Encajados</button>
+    </div>
+
+    </header>
+
+    <div class="stats-modal" id="statsModal">
+      <div class="stats-modal-content">
+        <button type="button" class="stats-modal-close" id="statsModalClose" aria-label="Cerrar">&times;</button>
+        <h2 id="statsModalTitle"></h2>
+        <div class="stats-table-wrapper">
+          <table class="stats-table">
+            <thead id="statsTableHead"></thead>
+            <tbody id="statsTableBody"></tbody>
+          </table>
+        </div>
+      </div>
     </div>
     
-    </header>
-    
-
     <footer id="footer-placeholder"></footer>
 
     <div class="vignette"></div>

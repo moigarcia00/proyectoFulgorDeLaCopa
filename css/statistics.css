@@ -34,3 +34,126 @@ h1  {
                 border-radius: 30px;
                 background-color:brown;
             }
+
+/* ---------- Modal de estadísticas ---------- */
+
+.stats-modal {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(2, 6, 16, 0.72);
+    backdrop-filter: blur(3px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease;
+    z-index: 2000;
+}
+
+.stats-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.stats-modal-content {
+    position: relative;
+    width: min(720px, 90vw);
+    max-height: 75vh;
+    display: flex;
+    flex-direction: column;
+    background: #060f20;
+    border: 1px solid rgba(212, 163, 91, 0.35);
+    border-radius: 18px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 30px rgba(212, 163, 91, 0.08);
+    padding: 30px 34px;
+    transform: translateY(12px) scale(0.97);
+    transition: transform 0.25s ease;
+}
+
+.stats-modal.active .stats-modal-content {
+    transform: translateY(0) scale(1);
+}
+
+.stats-modal-close {
+    position: absolute;
+    top: 14px;
+    right: 18px;
+    background: none;
+    border: none;
+    color: #d4a35b;
+    font-size: 1.8rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.stats-modal-close:hover {
+    color: #ffffff;
+}
+
+#statsModalTitle {
+    color: #d4a35b;
+    text-align: center;
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+}
+
+.stats-table-wrapper {
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #0055a566 transparent;
+}
+
+.stats-table-wrapper::-webkit-scrollbar {
+    width: 8px;
+}
+
+.stats-table-wrapper::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.stats-table-wrapper::-webkit-scrollbar-thumb {
+    background-color: #0055a566;
+    border-radius: 8px;
+}
+
+.stats-table-wrapper::-webkit-scrollbar-thumb:hover {
+    background-color: #0055a5;
+}
+
+.stats-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #060f20;
+    color: #ffffff;
+    font-size: 0.95rem;
+}
+
+.stats-table thead th {
+    position: sticky;
+    top: 0;
+    background: #060f20;
+    color: #d4a35b;
+    text-align: left;
+    padding: 10px 14px;
+    border-bottom: 2px solid rgba(212, 163, 91, 0.4);
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+}
+
+.stats-table tbody td {
+    padding: 10px 14px;
+    color: #ffffff;
+    border-bottom: 1px solid rgba(212, 163, 91, 0.12);
+}
+
+.stats-table tbody tr:nth-child(even) {
+    background: #111c2e;
+}
+
+.stats-table tbody tr:hover {
+    background: rgba(212, 163, 91, 0.12);
+}
