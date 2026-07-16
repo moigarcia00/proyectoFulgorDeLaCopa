@@ -22,4 +22,7 @@ Proyecto diseñado en Figma como prototipo de lo que será la página web a desa
 | Marisa Ruíz Torres | Development | [@Marisa-Ruiz](https://github.com/Marisa-Ruiz) |
 | Jhojann Sossa Zabala | Development | [@jhojannsossa](https://github.com/jhojannsossa) |
 
+## 🎨 Diseño
+Puedes ver el prototipo completo del proyecto en Figma:
+🔗 [Ver diseño en Figma](https://www.figma.com/design/5BpkKAjspk5YeNy99J6py6/World-Cup-2026?node-id=0-1&p=f&t=He5hm1oJnIAebpKy-0)
 
