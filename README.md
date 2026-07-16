@@ -2,6 +2,9 @@
 Pagina Web sobre el Mundial de futbol para el presidente de la FIFA Gianni Infantino.
 Proyecto diseñado en Figma como prototipo de lo que será la página web a desarrollar utilizando diferentes herramientas.
 
+## 🌐 API
+Este proyecto consume una API externa de fútbol para obtener datos reales (partidos, resultados, clasificaciones, etc.), utilizada **exclusivamente con fines educativos** en el marco de este bootcamp. No tiene fines comerciales ni de producción.
+
 ## 🛠️ Stack Tecnológico
 | Ecosistema | Tecnología / Herramienta | Uso en el Proyecto |
 | :--- | :--- | :--- |
@@ -25,9 +28,6 @@ Proyecto diseñado en Figma como prototipo de lo que será la página web a desa
 ## 🎨 Diseño
 Puedes ver el prototipo completo del proyecto en Figma:
 🔗 [Ver diseño en Figma](https://www.figma.com/design/5BpkKAjspk5YeNy99J6py6/World-Cup-2026?node-id=0-1&p=f&t=He5hm1oJnIAebpKy-0)
-
-## 🌐 API
-Este proyecto consume una API externa de fútbol para obtener datos reales (partidos, resultados, clasificaciones, etc.), utilizada **exclusivamente con fines educativos** en el marco de este bootcamp. No tiene fines comerciales ni de producción.
 
 ## 📌 Funcionalidades
 - Página de bienvenida.
