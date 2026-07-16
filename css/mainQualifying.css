@@ -26,11 +26,7 @@ body {
   min-height: 100dvh;
   color: var(--text-main);
   background:
-    radial-gradient(
-      circle at top center,
-      rgba(37, 99, 235, 0.22),
-      transparent 35%
-    ),
+    radial-gradient(circle at top center, #2563eb38, transparent 35%),
     linear-gradient(135deg, #07111f 0%, #0b1b3d 48%, #050b16 100%);
   overflow: hidden;
 }

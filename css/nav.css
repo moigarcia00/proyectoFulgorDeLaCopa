@@ -17,7 +17,7 @@ nav {
   justify-content: space-between;
   background-color: var(--bg-dark);
   padding: 0 40px;
-  border-bottom: 1px solid rgba(0, 85, 165, 0.4);
+  border-bottom: 1px solid #0055a566;
   font-family: var(--font-nav);
   box-sizing: border-box;
   width: 100%;
@@ -68,14 +68,14 @@ nav {
 
 .navItem:hover {
   color: var(--gold-glow);
-  background-color: rgba(223, 177, 65, 0.08);
-  border-color: rgba(223, 177, 65, 0.25);
-  box-shadow: 0 0 12px rgba(223, 177, 65, 0.15);
+  background-color: #dfb14114;
+  border-color: #dfb14140;
+  box-shadow: 0 0 12px #dfb14126;
 }
 
 .navItem.active {
   border-color: var(--gold-main);
-  background-color: rgba(223, 177, 65, 0.04);
+  background-color: #dfb1410a;
 }
 
 .worldNavbar::after {
