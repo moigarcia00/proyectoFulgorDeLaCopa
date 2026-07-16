@@ -99,8 +99,12 @@ function processMatchData(data) {
     const homeGoals = match.score?.fullTime?.home ?? 0;
     const awayGoals = match.score?.fullTime?.away ?? 0;
 
-    if (!teamStats[homeTeam]) teamStats[homeTeam] = { goalsFor: 0, goalsAgainst: 0 };
-    if (!teamStats[awayTeam]) teamStats[awayTeam] = { goalsFor: 0, goalsAgainst: 0 };
+    if (!teamStats[homeTeam]) {
+      teamStats[homeTeam] = { goalsFor: 0, goalsAgainst: 0, flag: match.homeTeam.crest };
+    }
+    if (!teamStats[awayTeam]) {
+      teamStats[awayTeam] = { goalsFor: 0, goalsAgainst: 0, flag: match.awayTeam.crest };
+    }
 
     teamStats[homeTeam].goalsFor += homeGoals;
     teamStats[homeTeam].goalsAgainst += awayGoals;
@@ -123,6 +127,7 @@ const statsConfig = {
         .map(([teamName, values]) => ({
           Equipo: teamName,
           "Goles a favor": values.goalsFor,
+          _flag: values.flag,
         }))
         .sort((a, b) => b["Goles a favor"] - a["Goles a favor"]);
     },
@@ -137,6 +142,7 @@ const statsConfig = {
         Jugador: row.player.name,
         Equipo: translateTeamName(row.team.name),
         Goles: row.goals,
+        _flag: row.team.crest,
       }));
     },
   },
@@ -150,6 +156,7 @@ const statsConfig = {
         .map(([teamName, values]) => ({
           Equipo: teamName,
           "Goles en contra": values.goalsAgainst,
+          _flag: values.flag,
         }))
         .sort((a, b) => b["Goles en contra"] - a["Goles en contra"]);
     },
@@ -189,7 +196,9 @@ function renderTable(rows) {
     return;
   }
 
-  const columns = Object.keys(rows[0]);
+  // Las claves que empiezan con "_" son datos auxiliares (ej. la bandera)
+  // y no deben mostrarse como columna propia.
+  const columns = Object.keys(rows[0]).filter((col) => !col.startsWith("_"));
 
   const headRow = document.createElement("tr");
   columns.forEach((col) => {
@@ -203,11 +212,64 @@ function renderTable(rows) {
     const tr = document.createElement("tr");
     columns.forEach((col) => {
       const td = document.createElement("td");
-      td.textContent = row[col] ?? "";
+
+      if (col === "Equipo" && row._flag) {
+        const cell = document.createElement("div");
+        cell.className = "teamCell";
+
+        const flag = document.createElement("img");
+        flag.src = row._flag;
+        flag.alt = "";
+        flag.className = "teamFlag";
+        flag.onerror = () => flag.remove();
+
+        const name = document.createElement("span");
+        name.textContent = row[col] ?? "";
+
+        cell.appendChild(flag);
+        cell.appendChild(name);
+        td.appendChild(cell);
+      } else {
+        td.textContent = row[col] ?? "";
+      }
+
       tr.appendChild(td);
     });
     tableBody.appendChild(tr);
   });
+}
+
+/* Obtiene (y cachea) las filas ya procesadas para un botón concreto */
+async function fetchStatsRows(key) {
+  if (cache[key]) return cache[key];
+
+  const config = statsConfig[key];
+
+  // football-data.org no siempre permite CORS directo desde localhost,
+  // así que pasamos por corsproxy.io, que SÍ reenvía cabeceras personalizadas
+  // (a diferencia de otros proxies como allorigins) y devuelve la respuesta
+  // tal cual, sin envolverla en JSON.
+  const proxiedUrl = `https://corsproxy.io/?url=${encodeURIComponent(config.endpoint)}`;
+
+  const response = await fetch(proxiedUrl, {
+    headers: { "X-Auth-Token": API_TOKEN },
+  });
+
+  if (!response.ok) {
+    let detail = response.statusText;
+    try {
+      const errorBody = await response.json();
+      detail = errorBody.message || detail;
+    } catch (_) {
+      /* la respuesta de error no era JSON, usamos statusText */
+    }
+    throw new Error(`(${response.status}) ${detail}`);
+  }
+
+  const data = await response.json();
+  const rows = config.buildRows(data);
+  cache[key] = rows;
+  return rows;
 }
 
 async function loadStats(key) {
@@ -216,46 +278,75 @@ async function loadStats(key) {
 
   modalTitle.textContent = config.title;
   openModal();
-
-  if (cache[key]) {
-    renderTable(cache[key]);
-    return;
-  }
-
   renderMessage("Cargando datos de la API...");
 
   try {
-    // football-data.org no siempre permite CORS directo desde localhost,
-    // así que pasamos por corsproxy.io, que SÍ reenvía cabeceras personalizadas
-    // (a diferencia de otros proxies como allorigins) y devuelve la respuesta
-    // tal cual, sin envolverla en JSON.
-    const proxiedUrl = `https://corsproxy.io/?url=${encodeURIComponent(config.endpoint)}`;
-
-    const response = await fetch(proxiedUrl, {
-      headers: { "X-Auth-Token": API_TOKEN },
-    });
-
-    if (!response.ok) {
-      let detail = response.statusText;
-      try {
-        const errorBody = await response.json();
-        detail = errorBody.message || detail;
-      } catch (_) {
-        /* la respuesta de error no era JSON, usamos statusText */
-      }
-      throw new Error(`(${response.status}) ${detail}`);
-    }
-
-    const data = await response.json();
-    const rows = config.buildRows(data);
-
-    cache[key] = rows;
+    const rows = await fetchStatsRows(key);
     renderTable(rows);
   } catch (error) {
     console.error("Detalle del error:", error);
     renderMessage(`⚠️ Error: ${error.message}`);
   }
 }
+
+/* ---------- Tarjetas de líder (debajo de cada botón) ---------- */
+
+function renderLeaderCard(card, row) {
+  card.innerHTML = "";
+
+  if (!row) {
+    card.innerHTML = `<p class="leaderEmpty">Sin datos</p>`;
+    return;
+  }
+
+  const img = document.createElement("img");
+  img.className = "leaderImage";
+  img.alt = "";
+  img.src = row._flag ?? "";
+  img.onerror = () => img.remove();
+
+  const name = document.createElement("p");
+  name.className = "leaderName";
+  name.textContent = row.Jugador ?? row.Equipo ?? "";
+
+  const sub = document.createElement("p");
+  sub.className = "leaderSub";
+  sub.textContent = row.Jugador ? row.Equipo ?? "" : "";
+
+  const statKey = Object.keys(row).find(
+    (k) => !k.startsWith("_") && k !== "Jugador" && k !== "Equipo"
+  );
+
+  const value = document.createElement("p");
+  value.className = "leaderValue";
+  value.textContent = statKey ? `${row[statKey]} ⚽` : "";
+
+  card.appendChild(img);
+  card.appendChild(name);
+  if (sub.textContent) card.appendChild(sub);
+  card.appendChild(value);
+}
+
+async function initLeaders() {
+  const leaderCards = document.querySelectorAll("[data-leader]");
+
+  leaderCards.forEach((card) => {
+    card.innerHTML = `<p class="leaderEmpty">Cargando...</p>`;
+  });
+
+  for (const card of leaderCards) {
+    const key = card.dataset.leader;
+    try {
+      const rows = await fetchStatsRows(key);
+      renderLeaderCard(card, rows[0]);
+    } catch (error) {
+      console.error("Detalle del error:", error);
+      card.innerHTML = `<p class="leaderEmpty">Error al cargar</p>`;
+    }
+  }
+}
+
+initLeaders();
 
 statButtons.forEach((button) => {
   button.addEventListener("click", () => loadStats(button.dataset.stat));
