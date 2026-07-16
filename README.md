@@ -26,3 +26,9 @@ Proyecto diseñado en Figma como prototipo de lo que será la página web a desa
 Puedes ver el prototipo completo del proyecto en Figma:
 🔗 [Ver diseño en Figma](https://www.figma.com/design/5BpkKAjspk5YeNy99J6py6/World-Cup-2026?node-id=0-1&p=f&t=He5hm1oJnIAebpKy-0)
 
+## 📌 Funcionalidades
+- Página de bienvenida.
+- Agenda con los próximos partidos y resultados.
+- Clasificación por grupos o tabla de posiciones.
+- Árbol de eliminatorias.
+- Estadísticas: máximos goleadores, equipos con más goles a favor y goles encajados.
