@@ -1,6 +1,6 @@
 body {
     
-    background-image: url('fondo pagina mundial.png');
+    background-image: url('imagen oficial del mundial.png');
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
@@ -42,11 +42,10 @@ body {
     flex-direction: column;
     gap: 24px; /* Separación entre grupos */
 }
-
-/* Tarjeta contenedora de cada Grupo */
+/* Tarjeta contenedora de cada Grupos */
 .group-card {
    
-    background-color: rgba(255, 255, 255, 0.83); 
+    background-color: rgba(255, 255, 255, 0.85); 
     border-radius: 12px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3); 
     margin-bottom: 30px;
@@ -64,7 +63,7 @@ body {
 /* Cabecera del grupo (Grupo A, Grupo B, etc.) */
 .standing-table thead th {
     background-color: #fafafa;
-    color: #5f6368;
+    color: #003e7c;
     font-weight: 500;
     padding: 14px 16px;
     border-bottom: 1px solid #e0e0e0;
@@ -73,7 +72,7 @@ body {
 .standing-table thead th.group-title {
     font-size: 16px;
     font-weight: 600;
-    color: #202124;
+    color: #003e7c;
     text-align: left;
 }
 
@@ -89,7 +88,7 @@ body {
 
 /* Filas de la tabla */
 .standing-table tbody tr {
-    border-bottom: 1px solid #85beda;
+    border-bottom: 1px solid #679fba;
     height: 48px;
 }
 
@@ -165,7 +164,7 @@ body {
     flex-wrap: wrap;
     justify-content: space-around;
     align-items: center;
-    background-color: rgba(11, 21, 40, 0.85); /* Azul oscuro translúcido */
+    background-color: rgba(255, 255, 255, 0.15); /* Azul oscuro translúcido */
     border: 1px solid rgba(180, 151, 90, 0.3); /* Borde dorado sutil */
     border-radius: 8px;
     padding: 12px;
