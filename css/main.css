@@ -1,0 +1,46 @@
+main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+h1,h2{
+    color: #EFBB20;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+}
+
+.index-paragraph{
+    color: #EFBB20;
+    text-align: center;
+    width: calc(100% - 300px);
+    font-family: 'source sans pro', sans-serif;
+    font-size: 14px;
+    z-index: 1;
+}
+.highlight{
+    color: #EFBB20;
+    font-weight: bold;
+}
+.iconMundial{
+    display: block;
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+}
+.img-wrapper {
+    padding: 20px;   
+}
+
+.imgIndex {
+    display: block;
+    width: 100%;       
+    max-width: 800px;  
+    margin: 0 auto;   
+    height: auto;
+    border-radius: 12px; 
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); 
+    transition: transform 0.3s ease; 
+    border: 1px solid rgba(255, 255, 255, 0.1); 
+}
+
