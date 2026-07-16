@@ -62,8 +62,9 @@ body {
 
 /* Cabecera del grupo (Grupo A, Grupo B, etc.) */
 .standing-table thead th {
-    background-color: #fafafa;
-    color: #003e7c;
+    background-color: rgba(83, 112, 165, 0.80);
+    border: 1px solid rgba(180, 151, 90, 0.5);
+    color: #d3ae5f;
     font-weight: 500;
     padding: 14px 16px;
     border-bottom: 1px solid #e0e0e0;
@@ -72,7 +73,7 @@ body {
 .standing-table thead th.group-title {
     font-size: 16px;
     font-weight: 600;
-    color: #003e7c;
+    color: #d3ae5f;
     text-align: left;
 }
 
