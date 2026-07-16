@@ -37,7 +37,7 @@ h1  {
 
 /* ---------- Modal de estadísticas ---------- */
 
-.stats-modal {
+.statsModal {
     position: fixed;
     inset: 0;
     display: flex;
@@ -51,12 +51,12 @@ h1  {
     z-index: 2000;
 }
 
-.stats-modal.active {
+.statsModal.active {
     opacity: 1;
     visibility: visible;
 }
 
-.stats-modal-content {
+.statsModalContent {
     position: relative;
     width: min(720px, 90vw);
     max-height: 75vh;
@@ -71,11 +71,11 @@ h1  {
     transition: transform 0.25s ease;
 }
 
-.stats-modal.active .stats-modal-content {
+.statsModal.active .statsModalContent {
     transform: translateY(0) scale(1);
 }
 
-.stats-modal-close {
+.statsModalClose {
     position: absolute;
     top: 14px;
     right: 18px;
@@ -88,7 +88,7 @@ h1  {
     transition: color 0.2s ease;
 }
 
-.stats-modal-close:hover {
+.statsModalClose:hover {
     color: #ffffff;
 }
 
@@ -100,30 +100,30 @@ h1  {
     letter-spacing: 0.5px;
 }
 
-.stats-table-wrapper {
+.statsTableWrapper {
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: #0055a566 transparent;
 }
 
-.stats-table-wrapper::-webkit-scrollbar {
+.statsTableWrapper::-webkit-scrollbar {
     width: 8px;
 }
 
-.stats-table-wrapper::-webkit-scrollbar-track {
+.statsTableWrapper::-webkit-scrollbar-track {
     background: transparent;
 }
 
-.stats-table-wrapper::-webkit-scrollbar-thumb {
+.statsTableWrapper::-webkit-scrollbar-thumb {
     background-color: #0055a566;
     border-radius: 8px;
 }
 
-.stats-table-wrapper::-webkit-scrollbar-thumb:hover {
+.statsTableWrapper::-webkit-scrollbar-thumb:hover {
     background-color: #0055a5;
 }
 
-.stats-table {
+.statsTable {
     width: 100%;
     border-collapse: collapse;
     background: #060f20;
@@ -131,7 +131,7 @@ h1  {
     font-size: 0.95rem;
 }
 
-.stats-table thead th {
+.statsTable thead th {
     position: sticky;
     top: 0;
     background: #060f20;
@@ -144,16 +144,16 @@ h1  {
     letter-spacing: 0.05em;
 }
 
-.stats-table tbody td {
+.statsTable tbody td {
     padding: 10px 14px;
     color: #ffffff;
     border-bottom: 1px solid rgba(212, 163, 91, 0.12);
 }
 
-.stats-table tbody tr:nth-child(even) {
+.statsTable tbody tr:nth-child(even) {
     background: #111c2e;
 }
 
-.stats-table tbody tr:hover {
+.statsTable tbody tr:hover {
     background: rgba(212, 163, 91, 0.12);
 }
