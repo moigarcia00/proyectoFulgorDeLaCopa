@@ -35,7 +35,7 @@ h1  {
                 background-color:brown;
             }
 
-/* ---------- Modal de estadísticas ---------- */
+
 
 .statsModal {
     position: fixed;
@@ -173,7 +173,7 @@ h1  {
     border: 1px solid rgba(212, 163, 91, 0.4);
 }
 
-/* ---------- Tarjetas de líder (debajo de cada botón) ---------- */
+
 
 .leaderRow {
     display: flex;
