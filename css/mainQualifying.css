@@ -157,6 +157,7 @@ main.page {
 
 .info {
   min-width: 0;
+  flex: 1 1 auto;
   display: flex;
   align-items: center;
   gap: clamp(4px, 0.4vw, 8px);
@@ -183,16 +184,36 @@ main.page {
 }
 
 .score {
+  flex: 0 0 auto;
   min-width: 16px;
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 3px;
   color: var(--text-main);
   text-align: right;
+}
+
+.score-main {
   font-size: clamp(10px, 0.75vw, 14px);
   font-weight: 800;
 }
 
+.score-penalties {
+  margin-left: clamp(2px, 0.3vw, 5px);
+  font-size: clamp(7px, 0.5vw, 10px);
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: -0.2px;
+}
+
 .winner .name,
-.winner .score {
+.winner .score-main {
   color: var(--accent-gold);
+}
+
+.winner .score-penalties {
+  color: rgba(250, 204, 21, 0.55);
 }
 
 .placeholder {

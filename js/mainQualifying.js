@@ -154,6 +154,14 @@ function getWinner(match) {
   if (isValidNumber(home) && isValidNumber(away)) {
     if (Number(home) > Number(away)) return "HOME_TEAM";
     if (Number(away) > Number(home)) return "AWAY_TEAM";
+
+    // Empate en tiempo reglamentario: revisar penales
+    const homePen = match.score?.penalties?.home;
+    const awayPen = match.score?.penalties?.away;
+    if (isValidNumber(homePen) && isValidNumber(awayPen)) {
+      if (Number(homePen) > Number(awayPen)) return "HOME_TEAM";
+      if (Number(awayPen) > Number(homePen)) return "AWAY_TEAM";
+    }
   }
 
   return null;
@@ -226,17 +234,48 @@ function createCard(match, isFinal = false) {
 
   const home = match.homeTeam || {};
   const away = match.awayTeam || {};
-  const homeGoals = match.score?.fullTime?.home ?? "-";
-  const awayGoals = match.score?.fullTime?.away ?? "-";
+  const regulationScore = getRegulationScore(match);
+  const homeGoals = regulationScore.home;
+  const awayGoals = regulationScore.away;
+  const homePenalties = match.score?.penalties?.home;
+  const awayPenalties = match.score?.penalties?.away;
+
+  const homeDisplayScore = formatScoreWithPenalties(homeGoals, homePenalties);
+  const awayDisplayScore = formatScoreWithPenalties(awayGoals, awayPenalties);
+
   const winner = getWinner(match);
 
   card.innerHTML = `
     <span class="match-number">M${match.numero}</span>
-    ${createRowHtml(home, homeGoals, winner === "HOME_TEAM")}
-    ${createRowHtml(away, awayGoals, winner === "AWAY_TEAM")}
+    ${createRowHtml(home, homeDisplayScore, winner === "HOME_TEAM")}
+    ${createRowHtml(away, awayDisplayScore, winner === "AWAY_TEAM")}
   `;
 
   return card;
+}
+
+function getRegulationScore(match) {
+  const candidates = [
+    match.score?.regularTime,
+    match.score?.extraTime,
+    match.score?.fullTime,
+  ];
+
+  const validScore = candidates.find(
+    (score) => score && isValidNumber(score.home) && isValidNumber(score.away),
+  );
+
+  return {
+    home: validScore?.home ?? "-",
+    away: validScore?.away ?? "-",
+  };
+}
+
+function formatScoreWithPenalties(goals, penaltyGoals) {
+  if (isValidNumber(penaltyGoals)) {
+    return `<span class="score-main">${goals}</span><span class="score-penalties">(${penaltyGoals})</span>`;
+  }
+  return `<span class="score-main">${goals}</span>`;
 }
 
 function createRowHtml(team, goals, isWinner) {
