@@ -1,0 +1,22 @@
+  :root {
+    --navy-deep: #050d1f;
+    --navy-mid: #0b1f3d;
+    --gold: #f2a93b;
+    --gold-warm: #ffcf6b;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  body {
+    position: relative;
+    background-image: url("../img/background.webp");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
