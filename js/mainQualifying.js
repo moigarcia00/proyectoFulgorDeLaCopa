@@ -320,10 +320,6 @@ function escapeHtml(text) {
   );
 }
 
-// --- Estados de carga / error ---
-// Requiere un contenedor en el HTML con id="bracketStatus" (ver ejemplo abajo).
-// Si no existe, estas funciones no hacen nada y el resto del script sigue igual.
-
 function showLoadingState() {
   const status = document.getElementById("bracketStatus");
   if (!status) return;
