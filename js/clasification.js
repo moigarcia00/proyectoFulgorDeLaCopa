@@ -109,7 +109,7 @@ const mundialData = [
   }
 ];
 
-// 2. Función de renderizado dinámico (se mantiene idéntica, pero ahora procesará los 12 grupos)
+
 function renderTables(data) {
     const container = document.getElementById("groups-container");
     container.innerHTML = ""; 
