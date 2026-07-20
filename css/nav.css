@@ -35,7 +35,7 @@ nav {
   color: var(--gold-main);
   font-size: 0.9rem;
   font-weight: 600;
-  text-transform: lowercase;
+  text-transform: none;
   letter-spacing: 0.5px;
 }
 
