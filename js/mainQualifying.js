@@ -69,27 +69,33 @@ const displayOrder = {
 window.onload = loadBracket;
 
 async function loadBracket() {
-  const matches = await fetchMatchesApi();
-  const matchesByNumber = assignOfficialNumbers(matches);
-  renderBracket(matchesByNumber);
+  showLoadingState();
+  try {
+    const matches = await fetchMatchesApi();
+    const matchesByNumber = assignOfficialNumbers(matches);
+    renderBracket(matchesByNumber);
+    hideStatus();
+  } catch (error) {
+    console.error("Error cargando el bracket:", error);
+    showErrorState(error);
+  }
 }
 
 async function fetchMatchesApi() {
-  try {
-    const proxyUrl = proxyCors + encodeURIComponent(apiUrl);
-    const response = await fetch(proxyUrl, {
-      method: "GET",
-      headers: { "X-Auth-Token": apiKey },
-    });
+  const proxyUrl = proxyCors + encodeURIComponent(apiUrl);
+  const response = await fetch(proxyUrl, {
+    method: "GET",
+    headers: { "X-Auth-Token": apiKey },
+  });
 
-    if (!response.ok) throw new Error(`API Error ${response.status}`);
-
-    const data = await response.json();
-    return processMatches(data.matches || []);
-  } catch (error) {
-    console.warn("Could not load live data:", error.message);
-    return [];
+  if (!response.ok) {
+    throw new Error(
+      `Error de la API (${response.status}): no se pudieron obtener los partidos`,
+    );
   }
+
+  const data = await response.json();
+  return processMatches(data.matches || []);
 }
 
 function processMatches(matches) {
@@ -100,216 +106,190 @@ function processMatches(matches) {
 
 function normalizeMatchStage(match) {
   const stageMapping = { LAST_32: "ROUND_OF_32" };
-  return {
-    ...match,
-    stage: stageMapping[match.stage] || match.stage,
-  };
+  return { ...match, stage: stageMapping[match.stage] || match.stage };
 }
 
 function assignOfficialNumbers(matches) {
   const matchMap = {};
-
   Object.keys(stageInfo).forEach((stage) => {
-    const stageDetails = stageInfo[stage];
     const stageMatches = matches
-      .filter((match) => match.stage === stage)
+      .filter((m) => m.stage === stage)
       .sort(sortByDate);
 
     stageMatches.forEach((match, index) => {
       const officialNumber = getOfficialNumber(
         match,
-        stageDetails.start + index,
+        stageInfo[stage].start + index,
       );
       matchMap[officialNumber] = { ...match, numero: officialNumber };
     });
   });
-
   return matchMap;
 }
 
-function getOfficialNumber(match, numberByDate) {
-  const isValidMatchday =
+function getOfficialNumber(match, numberByDateFallback) {
+  const isOfficialMatchday =
     Number.isInteger(match.matchday) &&
     match.matchday >= stageInfo.ROUND_OF_32.start &&
     match.matchday <= stageInfo.FINAL.start;
-
-  return isValidMatchday ? match.matchday : numberByDate;
+  return isOfficialMatchday ? match.matchday : numberByDateFallback;
 }
 
 function sortByDate(a, b) {
-  const dateA = new Date(a.utcDate || 0).getTime();
-  const dateB = new Date(b.utcDate || 0).getTime();
-
-  if (dateA !== dateB) return dateA - dateB;
-  return String(a.id || "").localeCompare(String(b.id || ""));
+  return new Date(a.utcDate || 0) - new Date(b.utcDate || 0);
 }
 
 function getWinner(match) {
-  const apiWinner = match.score?.winner;
-  if (apiWinner === "HOME_TEAM" || apiWinner === "AWAY_TEAM") return apiWinner;
+  const { winner, fullTime, penalties } = match.score || {};
+  if (winner === "HOME_TEAM" || winner === "AWAY_TEAM") return winner;
 
-  const home = match.score?.fullTime?.home;
-  const away = match.score?.fullTime?.away;
+  if (isValidNumber(fullTime?.home) && isValidNumber(fullTime?.away)) {
+    if (fullTime.home > fullTime.away) return "HOME_TEAM";
+    if (fullTime.away > fullTime.home) return "AWAY_TEAM";
 
-  if (isValidNumber(home) && isValidNumber(away)) {
-    if (Number(home) > Number(away)) return "HOME_TEAM";
-    if (Number(away) > Number(home)) return "AWAY_TEAM";
-
-    // Empate en tiempo reglamentario: revisar penales
-    const homePen = match.score?.penalties?.home;
-    const awayPen = match.score?.penalties?.away;
-    if (isValidNumber(homePen) && isValidNumber(awayPen)) {
-      if (Number(homePen) > Number(awayPen)) return "HOME_TEAM";
-      if (Number(awayPen) > Number(homePen)) return "AWAY_TEAM";
+    if (isValidNumber(penalties?.home) && isValidNumber(penalties?.away)) {
+      if (penalties.home > penalties.away) return "HOME_TEAM";
+      if (penalties.away > penalties.home) return "AWAY_TEAM";
     }
   }
-
   return null;
 }
 
+function getRegulationScore(match) {
+  const fs = match.score?.fullTime;
+  if (fs != null && isValidNumber(fs.home))
+    return { home: fs.home, away: fs.away };
+
+  const et = match.score?.extraTime;
+  if (et != null && isValidNumber(et.home))
+    return { home: et.home, away: et.away };
+
+  const rt = match.score?.regularTime;
+  return { home: rt?.home ?? "-", away: rt?.away ?? "-" };
+}
+
 function renderBracket(matchesByNumber) {
-  const leftSide = document.getElementById("leftSide");
-  const rightSide = document.getElementById("rightSide");
-  const finalSlot = document.getElementById("finalSlot");
+  clearContainers();
+  renderLeftSide(matchesByNumber);
+  renderRightSide(matchesByNumber);
+  renderFinal(matchesByNumber);
+}
 
-  clearContainers([leftSide, rightSide, finalSlot]);
+function clearContainers() {
+  getBracketContainers().forEach((container) => {
+    if (container) container.innerHTML = "";
+  });
+}
 
-  const leftColumns = [
+function getBracketContainers() {
+  return [
+    document.getElementById("leftSide"),
+    document.getElementById("rightSide"),
+    document.getElementById("finalSlot"),
+  ];
+}
+
+function renderLeftSide(matchesByNumber) {
+  const container = document.getElementById("leftSide");
+  if (!container) return;
+  const columns = [
     displayOrder.roundOf32Left,
     displayOrder.last16Left,
     displayOrder.quarterFinalsLeft,
     displayOrder.semiFinalsLeft,
   ];
+  columns.forEach((col) =>
+    container.appendChild(createColumn(col, matchesByNumber)),
+  );
+}
 
-  const rightColumns = [
+function renderRightSide(matchesByNumber) {
+  const container = document.getElementById("rightSide");
+  if (!container) return;
+  const columns = [
     displayOrder.semiFinalsRight,
     displayOrder.quarterFinalsRight,
     displayOrder.last16Right,
     displayOrder.roundOf32Right,
   ];
-
-  leftColumns.forEach((col) =>
-    leftSide.appendChild(createColumn(col, matchesByNumber)),
+  columns.forEach((col) =>
+    container.appendChild(createColumn(col, matchesByNumber)),
   );
-  rightColumns.forEach((col) =>
-    rightSide.appendChild(createColumn(col, matchesByNumber)),
-  );
-
-  const finalMatch = matchesByNumber[104] || createPlaceholder(104);
-  finalSlot.appendChild(createCard(finalMatch, true));
 }
 
-function clearContainers(containers) {
-  containers.forEach((container) => {
-    if (container) container.innerHTML = "";
-  });
+function renderFinal(matchesByNumber) {
+  const container = document.getElementById("finalSlot");
+  if (!container) return;
+  const finalMatch = matchesByNumber[104] || createPlaceholder(104);
+  container.appendChild(createCard(finalMatch, true));
 }
 
 function createColumn(matchNumbers, matchesByNumber) {
   const column = document.createElement("div");
   column.className = "column";
-
   for (let i = 0; i < matchNumbers.length; i += 2) {
-    const pairContainer = document.createElement("div");
-    pairContainer.className = "pair";
-
-    const match1 =
-      matchesByNumber[matchNumbers[i]] || createPlaceholder(matchNumbers[i]);
-    const match2 =
-      matchesByNumber[matchNumbers[i + 1]] ||
-      createPlaceholder(matchNumbers[i + 1]);
-
-    pairContainer.appendChild(createCard(match1));
-    if (matchNumbers[i + 1]) pairContainer.appendChild(createCard(match2));
-
-    column.appendChild(pairContainer);
+    const pair = document.createElement("div");
+    pair.className = "pair";
+    pair.appendChild(
+      createCard(
+        matchesByNumber[matchNumbers[i]] || createPlaceholder(matchNumbers[i]),
+      ),
+    );
+    if (matchNumbers[i + 1]) {
+      pair.appendChild(
+        createCard(
+          matchesByNumber[matchNumbers[i + 1]] ||
+            createPlaceholder(matchNumbers[i + 1]),
+        ),
+      );
+    }
+    column.appendChild(pair);
   }
-
   return column;
 }
 
 function createCard(match, isFinal = false) {
   const card = document.createElement("article");
   card.className = isFinal ? "card final-card" : "card";
-
-  const home = match.homeTeam || {};
-  const away = match.awayTeam || {};
-  const regulationScore = getRegulationScore(match);
-  const homeGoals = regulationScore.home;
-  const awayGoals = regulationScore.away;
-  const homePenalties = match.score?.penalties?.home;
-  const awayPenalties = match.score?.penalties?.away;
-
-  const homeDisplayScore = formatScoreWithPenalties(homeGoals, homePenalties);
-  const awayDisplayScore = formatScoreWithPenalties(awayGoals, awayPenalties);
-
+  const score = getRegulationScore(match);
   const winner = getWinner(match);
 
   card.innerHTML = `
     <span class="match-number">M${match.numero}</span>
-    ${createRowHtml(home, homeDisplayScore, winner === "HOME_TEAM")}
-    ${createRowHtml(away, awayDisplayScore, winner === "AWAY_TEAM")}
+    ${createRowHtml(match.homeTeam, formatScore(score.home, match.score?.penalties?.home), winner === "HOME_TEAM")}
+    ${createRowHtml(match.awayTeam, formatScore(score.away, match.score?.penalties?.away), winner === "AWAY_TEAM")}
   `;
-
   return card;
 }
 
-function getRegulationScore(match) {
-  const candidates = [
-    match.score?.regularTime,
-    match.score?.extraTime,
-    match.score?.fullTime,
-  ];
-
-  const validScore = candidates.find(
-    (score) => score && isValidNumber(score.home) && isValidNumber(score.away),
-  );
-
-  return {
-    home: validScore?.home ?? "-",
-    away: validScore?.away ?? "-",
-  };
+function formatScore(goals, pen) {
+  return isValidNumber(pen)
+    ? `<span class="score-main">${goals}</span><span class="score-penalties">(${pen})</span>`
+    : `<span class="score-main">${goals}</span>`;
 }
 
-function formatScoreWithPenalties(goals, penaltyGoals) {
-  if (isValidNumber(penaltyGoals)) {
-    return `<span class="score-main">${goals}</span><span class="score-penalties">(${penaltyGoals})</span>`;
-  }
-  return `<span class="score-main">${goals}</span>`;
-}
-
-function createRowHtml(team, goals, isWinner) {
-  const originalName = team?.name || teamPlaceholder;
-  const translatedName = translateTeam(originalName);
-  const crest = team?.crest || "";
-  const placeholderClass =
-    originalName === teamPlaceholder ? "placeholder" : "";
-  const winnerClass = isWinner ? "winner" : "";
-
-  const crestHtml = crest
-    ? `<img class="flag" src="${crest}" alt="${escapeHtml(translatedName)}">`
+function createRowHtml(team, goalsHtml, isWinner) {
+  const name = translateTeam(team?.name || teamPlaceholder);
+  const crestHtml = isSafeImageUrl(team?.crest)
+    ? `<img class="flag" src="${escapeHtml(team.crest)}">`
     : `<div class="flag"></div>`;
 
   return `
-    <div class="team ${winnerClass}">
+    <div class="team ${isWinner ? "winner" : ""}">
         <div class="info">
             ${crestHtml}
-            <span class="name ${placeholderClass}" title="${escapeHtml(translatedName)}">
-              ${escapeHtml(translatedName)}
-            </span>
+            <span class="name">${escapeHtml(name)}</span>
         </div>
-        <span class="score">${goals}</span>
-    </div>
-  `;
+        <span class="score">${goalsHtml}</span>
+    </div>`;
 }
 
 function createPlaceholder(numero) {
   return {
     numero,
-    homeTeam: { name: teamPlaceholder, crest: "" },
-    awayTeam: { name: teamPlaceholder, crest: "" },
-    score: { winner: null, fullTime: { home: "-", away: "-" } },
-    utcDate: null,
+    homeTeam: { name: teamPlaceholder },
+    awayTeam: { name: teamPlaceholder },
+    score: { fullTime: { home: "-", away: "-" } },
   };
 }
 
@@ -317,20 +297,56 @@ function translateTeam(name) {
   return nombresEquiposEs[name] || name;
 }
 
-function isValidNumber(value) {
-  return (
-    value !== null &&
-    value !== undefined &&
-    value !== "-" &&
-    !isNaN(Number(value))
-  );
+function isValidNumber(v) {
+  return v !== null && v !== undefined && v !== "-" && !isNaN(Number(v));
+}
+
+function isSafeImageUrl(url) {
+  if (typeof url !== "string") return false;
+  return /^https?:\/\//i.test(url);
 }
 
 function escapeHtml(text) {
-  return String(text || "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
+  return String(text).replace(
+    /[&<>"']/g,
+    (m) =>
+      ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;",
+      })[m],
+  );
+}
+
+function showLoadingState() {
+  const status = document.getElementById("bracketStatus");
+  if (!status) return;
+  status.innerHTML = `<p class="bracket-status bracket-status--loading">Cargando partidos…</p>`;
+  status.style.display = "block";
+}
+
+function showErrorState(error) {
+  const status = document.getElementById("bracketStatus");
+  if (!status) {
+    console.error(
+      "No se pudo mostrar el error en pantalla: falta #bracketStatus",
+    );
+    return;
+  }
+  status.innerHTML = `
+    <div class="bracket-status bracket-status--error">
+      <p>No se pudieron cargar los partidos. ${escapeHtml(error.message || "")}</p>
+      <button type="button" id="bracketRetryBtn">Reintentar</button>
+    </div>`;
+  status.style.display = "block";
+
+  const retryBtn = document.getElementById("bracketRetryBtn");
+  if (retryBtn) retryBtn.addEventListener("click", loadBracket);
+}
+
+function hideStatus() {
+  const status = document.getElementById("bracketStatus");
+  if (status) status.style.display = "none";
 }
