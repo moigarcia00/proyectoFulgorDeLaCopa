@@ -119,3 +119,24 @@
   font-size: 17.6px;
   vertical-align: middle;
 }
+
+.matchScore {
+  background-color: #0055a566;
+  color: var(--gold-main);
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 6px;
+  min-width: 60px;
+  text-align: center;
+}
+
+.matchScoreLive {
+  color: var(--liveColor);
+}
+
+.matchStatus {
+  font-size: 12.8px;
+  color: var(--matchesMutedTextColor);
+  min-width: 60px;
+  text-align: center;
+}
