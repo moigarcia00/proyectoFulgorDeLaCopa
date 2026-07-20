@@ -63,6 +63,27 @@
 .matchList {
   display: flex;
   flex-direction: column;
+  max-height: 400px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #0055a566 transparent;
+}
+
+.matchList::-webkit-scrollbar {
+  width: 8px;
+}
+
+.matchList::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.matchList::-webkit-scrollbar-thumb {
+  background-color: #0055a566;
+  border-radius: 8px;
+}
+
+.matchList::-webkit-scrollbar-thumb:hover {
+  background-color: #0055a5;
 }
 
 .match {
