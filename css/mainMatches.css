@@ -17,7 +17,45 @@
 .scheduleTitle {
   text-align: center;
   color: var(--gold-main);
-  font-size: 1.4rem;
+  font-size: 22.4px;
   font-weight: 600;
   margin-bottom: 32px;
+}
+
+.matchGroup {
+  background-color: var(--navy-mid);
+  border: 1px solid #0055a566;
+  border-radius: var(--borderRadius);
+  margin-bottom: 24px;
+  overflow: hidden;
+}
+
+.matchGroupTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 14px 18px;
+  margin: 0;
+  border-bottom: 1px solid #0055a566;
+}
+
+.counter {
+  color: var(--matchesMutedTextColor);
+  font-weight: 400;
+}
+
+.icon {
+  font-size: 17.6px;
+}
+
+.iconLive {
+  color: var(--liveColor);
+  animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
 }
