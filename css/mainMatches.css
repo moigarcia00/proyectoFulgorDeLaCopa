@@ -140,3 +140,40 @@
   min-width: 60px;
   text-align: center;
 }
+
+.matchVenue {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13.6px;
+  color: var(--matchesMutedTextColor);
+  flex-basis: 200px;
+}
+
+.matchEmpty,
+.matchError {
+  color: var(--matchesMutedTextColor);
+  font-size: 14.4px;
+  justify-content: center;
+  text-align: center;
+}
+
+.matchError {
+  color: var(--liveColor);
+}
+
+@media (max-width: 600px) {
+  .match {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .matchTeams {
+    width: 100%;
+  }
+
+  .matchVenue {
+    width: 100%;
+  }
+
+}
