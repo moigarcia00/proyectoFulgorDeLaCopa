@@ -1,4 +1,14 @@
-const apiUrl = "/api/matches";
+const isLocalhost =
+  window.location.hostname === "localhost" ||
+  window.location.hostname === "127.0.0.1";
+
+const apiUrl = isLocalhost
+  ? "https://corsproxy.io/?" +
+    encodeURIComponent(
+      "https://api.football-data.org/v4/competitions/WC/matches?season=2026",
+    )
+  : "/api/matches";
+
 const teamPlaceholder = "Por definir";
 
 const nombresEquiposEs = {
@@ -79,11 +89,16 @@ async function loadBracket() {
 }
 
 async function fetchMatchesApi() {
-  const response = await fetch(apiUrl);
+  const response = await fetch(apiUrl, {
+    method: "GET",
+    headers: isLocalhost
+      ? { "X-Auth-Token": "4b51275c546a4e4db7c535a5e18c82e4" }
+      : {},
+  });
 
   if (!response.ok) {
     throw new Error(
-      `Error de la API (${response.status}): no se pudieron obtener los partidos`,
+      `Error (${response.status}): no se pudieron obtener los partidos`,
     );
   }
 
