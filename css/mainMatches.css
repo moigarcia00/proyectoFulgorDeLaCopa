@@ -1,4 +1,23 @@
-h1{
-color: #EFBB20;
-    text-align: center;
-    font-family: 'Arial', sans-serif;}
+:root {
+  --matchesTextColor: #eef2f7;
+  --matchesMutedTextColor: #94a3b8; /* mismo tono que footer-links/copyright */
+  --matchesCardBackgroundAlt: #10203a; /* variación de --navy-mid para filas pares */
+  --liveColor: #e63946;
+  --borderRadius: 10px;
+}
+
+.schedule {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+  color: var(--matchesTextColor);
+  font-family: var(--font-nav);
+}
+
+.scheduleTitle {
+  text-align: center;
+  color: var(--gold-main);
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 32px;
+}
