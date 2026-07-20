@@ -1,4 +1,4 @@
-﻿## ⚽ fulgorCupProject 
+��﻿## ⚽ fulgorCupProject 
 Pagina Web sobre el Mundial de futbol para el presidente de la FIFA Gianni Infantino.
 Proyecto diseñado en Figma como prototipo de lo que será la página web a desarrollar utilizando diferentes herramientas.
 
@@ -19,10 +19,10 @@ Este proyecto consume una API externa de fútbol para obtener datos reales (part
 ## 👥 Integrantes
 | Nombre | Rol | GitHub |
 | :--- | :--- | :--- |
-| Moisés García Sanz | Development / Scrum Master | [@moigarcia00](https://github.com/moigarcia00) |
-| Simón López Saldarriaga | Development | [@simonlopez25](https://github.com/simonlopez25) |
-| Beatriz Iñiguez Cascales | Product Owner / Development | [@Beatriz484](https://github.com/Beatriz484) |
-| Marisa Ruíz Torres | Development | [@Marisa-Ruiz](https://github.com/Marisa-Ruiz) |
+| Moisés García Sanz | Development / Scrum Master | [@moigarcia00](https://github.com/moigarcia00|
+| Simón López Saldarriaga | Development | [@simonlopez25](https://github.com/simonlopez25|
+| Beatriz Iñiguez Cascales | Product Owner / Development | [@Beatriz484](https://github.com/Beatriz484|
+| Marisa Ruíz Torres | Development | [@Marisa-Ruiz](https://github.com/Marisa-Ruiz|
 | Jhojann Sossa Zabala | Development | [@jhojannsossa](https://github.com/jhojannsossa) |
 
 ## 🎨 Diseño
