@@ -165,7 +165,7 @@ function renderTables(data) {
                     <td class="text-center">${team.gf}</td>
                     <td class="text-center">${team.gc}</td>
                     <td class="text-center">${team.dg}</td>
-                    <td class="text-center" style="color: #484a4b;">${team.pcd}</td>
+                    <td class="text-center" style="color: #8a96a8;">${team.pcd}</td>
                     <td class="text-center text-bold">${team.pts}</td>
                     <td class="text-center">
                         <div class="results-dots">${dotsHTML}</div>

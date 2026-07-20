@@ -44,10 +44,11 @@ body {
 }
 
 .group-card {
-   
-    background-color: rgba(255, 255, 255, 0.85); 
+
+    background-color: rgba(17, 28, 46, 0.92);
+    border: 1px solid rgba(212, 163, 91, 0.35);
     border-radius: 12px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3); 
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(212, 163, 91, 0.08), 0 0 20px rgba(212, 163, 91, 0.06);
     margin-bottom: 30px;
     padding: 20px;
 }
@@ -62,39 +63,58 @@ body {
 
 
 .standing-table thead th {
-    background-color: rgba(83, 112, 165, 0.80);
-    border: 1px solid rgba(180, 151, 90, 0.5);
-    color: #d3ae5f;
+    background-color: #060f20;
+    border: 1px solid rgba(212, 163, 91, 0.25);
+    color: #d4a35b;
     font-weight: 500;
     padding: 14px 16px;
-    border-bottom: 1px solid #e0e0e0;
+    border-bottom: 2px solid rgba(212, 163, 91, 0.6);
 }
 
 .standing-table thead th.group-title {
     font-size: 16px;
     font-weight: 600;
-    color: #d3ae5f;
+    color: #d4a35b;
     text-align: left;
 }
 
 
 .text-center {
     text-align: center;
-    color: #4e4d4d;
+    color: #8a96a8;
 }
 
 .text-bold {
     font-weight: 700;
+    color: #d4a35b;
 }
 
 
 .standing-table tbody tr {
-    border-bottom: 1px solid #679fba;
+    border-bottom: 1px solid rgba(212, 163, 91, 0.15);
+    background-color: #060f20;
     height: 48px;
+    transition: background-color 0.2s ease;
+}
+
+.standing-table tbody tr:nth-child(even) {
+    background-color: #111c2e;
 }
 
 .standing-table tbody tr:last-child {
     border-bottom: none;
+}
+
+.standing-table tbody tr:hover {
+    background-color: rgba(212, 163, 91, 0.08);
+}
+
+.standing-table tbody tr.qualified {
+    background-color: rgba(212, 163, 91, 0.07);
+}
+
+.standing-table tbody tr.qualified:nth-child(even) {
+    background-color: rgba(212, 163, 91, 0.12);
 }
 
 .standing-table tbody td {
@@ -105,8 +125,8 @@ body {
 
 .rank-col {
     width: 40px;
-    font-weight: 500;
-    color: #051479;
+    font-weight: 600;
+    color: #d4a35b;
     padding-left: 20px !important;
     position: relative;
 }
@@ -129,7 +149,7 @@ body {
     align-items: center;
     gap: 8px;
     font-weight: 500;
-    color: #202124;
+    color: #ffffff;
 }
 
 .flag {
