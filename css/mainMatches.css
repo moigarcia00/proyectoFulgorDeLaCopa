@@ -81,3 +81,41 @@
 .match:last-child {
   border-bottom: none;
 }
+
+.matchDate {
+  color: var(--matchesMutedTextColor);
+  font-size: 12.8px;
+  flex-basis: 170px;
+}
+
+.matchTeams {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1 1 300px;
+}
+
+.team {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+}
+
+.teamHome {
+  justify-content: flex-end;
+  flex: 1;
+  text-align: right;
+}
+
+.teamAway {
+  flex: 1;
+}
+
+.teamFlag {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  font-size: 17.6px;
+  vertical-align: middle;
+}
