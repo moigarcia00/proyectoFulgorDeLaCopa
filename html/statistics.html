@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fulgor de la Copa</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/nav.css" />
+    <link rel="stylesheet" href="../css/footer.css" />
+    <link rel="stylesheet" href="../css/statistics.css"/>
+  </head>
+  <body>
+    <nav id="worldNavbar"></nav>
+    <header>
+
+    <h1>Estadisticas del Torneo</h1>
+    
+    <div class="selector">
+      <button type="button" class="left" data-stat="teamScorer">Equipo Max. Goleador</button>
+      <button type="button" class="center" data-stat="playerScorer">Jugador Max. Goleador</button>
+      <button type="button" class="right" data-stat="teamConceded">Equipo Max. Encajados</button>
+    </div>
+
+    <div class="leaderRow">
+      <div class="leaderCard" data-leader="teamScorer"></div>
+      <div class="leaderCard" data-leader="playerScorer"></div>
+      <div class="leaderCard" data-leader="teamConceded"></div>
+    </div>
+
+    </header>
+
+    <div class="statsModal" id="statsModal">
+      <div class="statsModalContent">
+        <button type="button" class="statsModalClose" id="statsModalClose" aria-label="Cerrar">&times;</button>
+        <h2 id="statsModalTitle"></h2>
+        <div class="statsTableWrapper">
+          <table class="statsTable">
+            <thead id="statsTableHead"></thead>
+            <tbody id="statsTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    
+    <footer id="footer-placeholder"></footer>
+
+    <div class="vignette"></div>
+    <script src="../js/nav.js"></script>
+    <script src="../js/footer.js"></script>
+    <script src="../js/statistics.js"></script>
+  </body>
+</html>

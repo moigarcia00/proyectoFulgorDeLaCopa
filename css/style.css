@@ -10,13 +10,13 @@
   html, body {
     height: 100%;
     width: 100%;
-    
+    overflow: hidden;
   }
 
   body {
     position: relative;
-   background-image:url("../img/background web.webp");
-   background-size: cover;
-   background-repeat: no-repeat;
-   background-attachment: fixed;
+    background-image: url("../img/background.webp");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
   }

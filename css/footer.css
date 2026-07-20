@@ -1,35 +1,46 @@
-/* footer.css */
 .main-footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 20px;
-    background: #0b111e;
-    
-    border-top: 3px solid #f1c40f; 
-    
-    box-shadow: 0 -5px 15px rgba(241, 196, 15, 0.15);
-    
-    text-align: center;
-    color: #475569;
-    font-size: 0.85rem;
-    z-index: 1000;
+  width: 100%;
+  min-height: 92px;
+  padding: 20px;
+  background-color: var(--bg-dark);
+  border-top: 2px solid #0055a566;
+  color: #94a3b8;
+  text-align: center;
+  font-size: 0.75rem;
+  position: relative;
+  z-index: 10;
+  font-family: var(--font-nav);
 }
 
-.footer-links a { 
-    color: #94a3b8; 
-    text-decoration: none; 
-    margin: 0 10px; 
-    transition: 0.3s;
+.footer-brand {
+  color: var(--gold-main);
+  font-weight: 700;
+  margin-bottom: 5px;
 }
 
-.footer-links a:hover { 
-    color: #f1c40f; 
+.footer-links a {
+  color: #94a3b8;
+  text-decoration: none;
+  margin: 0 8px;
+  transition: all 0.25s ease-in-out;
 }
 
-.api-credit a { 
-    color: #f1c40f; 
-    text-decoration: underline;
-    font-weight: 600;
+.footer-links a:hover {
+  color: var(--gold-glow);
+  text-shadow: 0 0 8px #dfb1414d;
+}
+
+.api-credit a {
+  color: var(--gold-main);
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.api-credit a:hover {
+  color: var(--gold-glow);
+}
+
+.copyright {
+  color: #64748b;
+  margin-top: 5px;
 }
