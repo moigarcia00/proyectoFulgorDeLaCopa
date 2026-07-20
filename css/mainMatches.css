@@ -59,3 +59,25 @@
   0%, 100% { opacity: 1; }
   50% { opacity: 0.3; }
 }
+
+.matchList {
+  display: flex;
+  flex-direction: column;
+}
+
+.match {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  padding: 12px 18px;
+  border-bottom: 1px solid #0055a566;
+}
+
+.match:nth-child(even) {
+  background-color: var(--matchesCardBackgroundAlt);
+}
+
+.match:last-child {
+  border-bottom: none;
+}
