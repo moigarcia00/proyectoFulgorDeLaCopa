@@ -1,48 +1,46 @@
-const proxyCors = "https://cors-anywhere.herokuapp.com/";
-const apiKey = "4b51275c546a4e4db7c535a5e18c82e4";
-const apiUrl = "https://api.football-data.org/v4/competitions/WC/matches?season=2026";
+const apiUrl = "/api/matches";
 const teamPlaceholder = "Por definir";
 
 const nombresEquiposEs = {
   "South Africa": "Sudáfrica",
-  "Canada": "Canadá",
-  "Brazil": "Brasil",
-  "Japan": "Japón",
-  "Germany": "Alemania",
-  "Paraguay": "Paraguay",
-  "Netherlands": "Países Bajos",
-  "Morocco": "Marruecos",
+  Canada: "Canadá",
+  Brazil: "Brasil",
+  Japan: "Japón",
+  Germany: "Alemania",
+  Paraguay: "Paraguay",
+  Netherlands: "Países Bajos",
+  Morocco: "Marruecos",
   "Ivory Coast": "Costa de Marfil",
-  "Norway": "Noruega",
-  "France": "Francia",
-  "Sweden": "Suecia",
-  "Mexico": "México",
-  "Ecuador": "Ecuador",
-  "England": "Inglaterra",
+  Norway: "Noruega",
+  France: "Francia",
+  Sweden: "Suecia",
+  Mexico: "México",
+  Ecuador: "Ecuador",
+  England: "Inglaterra",
   "Congo DR": "RD Congo",
-  "Belgium": "Bélgica",
-  "Senegal": "Senegal",
+  Belgium: "Bélgica",
+  Senegal: "Senegal",
   "United States": "Estados Unidos",
   "Bosnia-Herzegovina": "Bosnia y Herzegovina",
-  "Portugal": "Portugal",
-  "Croatia": "Croacia",
-  "Spain": "España",
-  "Austria": "Austria",
-  "Switzerland": "Suiza",
-  "Algeria": "Argelia",
-  "Australia": "Australia",
-  "Egypt": "Egipto",
-  "Argentina": "Argentina",
+  Portugal: "Portugal",
+  Croatia: "Croacia",
+  Spain: "España",
+  Austria: "Austria",
+  Switzerland: "Suiza",
+  Algeria: "Argelia",
+  Australia: "Australia",
+  Egypt: "Egipto",
+  Argentina: "Argentina",
   "Cape Verde Islands": "Cabo Verde",
-  "Colombia": "Colombia",
-  "Ghana": "Ghana",
-  "Italy": "Italia",
-  "Denmark": "Dinamarca",
-  "Uruguay": "Uruguay",
+  Colombia: "Colombia",
+  Ghana: "Ghana",
+  Italy: "Italia",
+  Denmark: "Dinamarca",
+  Uruguay: "Uruguay",
   "South Korea": "Corea del Sur",
-  "Chile": "Chile",
-  "Ukraine": "Ucrania",
-  "Nigeria": "Nigeria",
+  Chile: "Chile",
+  Ukraine: "Ucrania",
+  Nigeria: "Nigeria",
 };
 
 const stageInfo = {
@@ -81,17 +79,12 @@ async function loadBracket() {
 }
 
 async function fetchMatchesApi() {
-  // Se concatena el proxy con la URL y se añade el Origin para el CORS
-  const response = await fetch(proxyCors + apiUrl, {
-    method: "GET",
-    headers: {
-      "X-Auth-Token": apiKey,
-      "Origin": window.location.origin
-    },
-  });
+  const response = await fetch(apiUrl);
 
   if (!response.ok) {
-    throw new Error(`Error de la API (${response.status}): no se pudieron obtener los partidos`);
+    throw new Error(
+      `Error de la API (${response.status}): no se pudieron obtener los partidos`,
+    );
   }
 
   const data = await response.json();
@@ -330,7 +323,9 @@ function showLoadingState() {
 function showErrorState(error) {
   const status = document.getElementById("bracketStatus");
   if (!status) {
-    console.error("No se pudo mostrar el error en pantalla: falta #bracketStatus");
+    console.error(
+      "No se pudo mostrar el error en pantalla: falta #bracketStatus",
+    );
     return;
   }
   status.innerHTML = `
