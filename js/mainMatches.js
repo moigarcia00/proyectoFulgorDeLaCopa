@@ -48,3 +48,159 @@ function classifyMatches(matches) {
     finished,
   };
 }
+
+function formatDateTime(utcDate) {
+  const date = new Date(utcDate);
+
+  const weekday = date
+    .toLocaleDateString("es-ES", { weekday: "long" })
+    .toUpperCase();
+  const day = date.getDate();
+  const month = date
+    .toLocaleDateString("es-ES", { month: "short" })
+    .toUpperCase()
+    .replace(".", "");
+  const time = date.toLocaleTimeString("es-ES", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  return { dateLabel: `[${weekday} ${day} ${month}]`, time };
+}
+
+function getScore(match) {
+  const fullTime = match.score?.fullTime ?? {};
+  const home = fullTime.home ?? fullTime.homeTeam;
+  const away = fullTime.away ?? fullTime.awayTeam;
+  return { home, away };
+}
+
+function createFlagImage(team) {
+  const name = team?.name ?? "Equipo";
+  const crest = team?.crest;
+  if (!crest) return `<span class="teamFlag">🏳️</span>`;
+  return `<img class="teamFlag" src="${crest}" alt="Escudo de ${name}" onerror="this.style.display='none'">`;
+}
+
+function createScheduledCard(match) {
+  const article = document.createElement("article");
+  article.className = "match";
+
+  const { dateLabel, time } = formatDateTime(match.utcDate);
+
+  article.innerHTML = `
+    <span class="matchDate">${dateLabel} - ${time}</span>
+    <div class="matchTeams">
+      <span class="team teamHome">
+        ${match.homeTeam?.name ?? "Por confirmar"}
+        ${createFlagImage(match.homeTeam)}
+      </span>
+      <span class="matchScore">${time}</span>
+      <span class="team teamAway">
+        ${createFlagImage(match.awayTeam)}
+        ${match.awayTeam?.name ?? "Por confirmar"}
+      </span>
+    </div>
+    <span class="matchVenue">📍 ${match.venue ?? "Por confirmar"}</span>
+  `;
+
+  return article;
+}
+
+function createLiveCard(match) {
+  const article = document.createElement("article");
+  article.className = "match";
+
+  const { home, away } = getScore(match);
+  const minute = match.minute ? `${match.minute}'` : match.status;
+
+  article.innerHTML = `
+    <div class="matchTeams">
+      <span class="team teamHome">
+        ${match.homeTeam?.name ?? "Equipo"}
+        ${createFlagImage(match.homeTeam)}
+      </span>
+      <span class="matchScore matchScoreLive">
+        ${home ?? 0} - ${away ?? 0}
+      </span>
+      <span class="team teamAway">
+        ${createFlagImage(match.awayTeam)}
+        ${match.awayTeam?.name ?? "Equipo"}
+      </span>
+    </div>
+    <span class="matchStatus">${minute}</span>
+    <span class="matchVenue">📍 ${match.venue ?? "Por confirmar"}</span>
+  `;
+
+  return article;
+}
+
+function createFinishedCard(match) {
+  const article = document.createElement("article");
+  article.className = "match";
+
+  const { dateLabel } = formatDateTime(match.utcDate);
+  const { home, away } = getScore(match);
+
+  article.innerHTML = `
+    <span class="matchDate">${dateLabel}</span>
+    <div class="matchTeams">
+      <span class="team teamHome">
+        ${match.homeTeam?.name ?? "Equipo"}
+        ${createFlagImage(match.homeTeam)}
+      </span>
+      <span class="matchScore">${home ?? "-"} - ${away ?? "-"}</span>
+      <span class="team teamAway">
+        ${createFlagImage(match.awayTeam)}
+        ${match.awayTeam?.name ?? "Equipo"}
+      </span>
+    </div>
+    <span class="matchVenue">📍 ${match.venue ?? "Por confirmar"}</span>
+  `;
+
+  return article;
+}
+
+function renderList(containerId, counterId, matches, createCard) {
+  const container = document.getElementById(containerId);
+  const counter = document.getElementById(counterId);
+ 
+  container.innerHTML = "";
+ 
+  if (matches.length === 0) {
+    container.innerHTML = `<p class="match matchEmpty">No hay partidos en este momento.</p>`;
+  } else {
+    matches.forEach((match) => {
+      container.appendChild(createCard(match));
+    });
+  }
+
+  counter.textContent = `(${matches.length})`;
+}
+
+function showError(message) {
+  ["scheduledList", "liveList", "finishedList"].forEach((id) => {
+    document.getElementById(id).innerHTML =
+      `<p class="match matchError">⚠️ ${message}</p>`;
+  });
+}
+
+async function loadAndRenderMatches() {
+  try {
+    const matches = await getWorldCupMatches();
+    const { scheduled, live, finished } = classifyMatches(matches);
+ 
+    renderList("scheduledList", "scheduledCounter", scheduled, createScheduledCard);
+    renderList("liveList", "liveCounter", live, createLiveCard);
+    renderList("finishedList", "finishedCounter", finished, createFinishedCard);
+  } catch (error) {
+    console.error("No se pudieron cargar los partidos:", error);
+    showError("No se pudieron cargar los partidos. Revisa la consola del navegador (F12) para más detalles.");
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadAndRenderMatches();
+
+  setInterval(loadAndRenderMatches, REFRESH_INTERVAL_MS);
+});

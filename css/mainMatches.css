@@ -26,7 +26,7 @@
   background-color: var(--navy-mid);
   border: 1px solid #0055a566;
   border-radius: var(--borderRadius);
-  margin-bottom: 24px;
+  margin: 0 150px 20px;
   overflow: hidden;
 }
 
@@ -63,10 +63,11 @@
 .matchList {
   display: flex;
   flex-direction: column;
-  max-height: 400px;
+  max-height: 300px;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: #0055a566 transparent;
+  color: #efbb20;
 }
 
 .matchList::-webkit-scrollbar {
