@@ -1,21 +1,9 @@
-/* statistics.js
-   Llama a la API de Football-Data a través de corsproxy.io (que reenvía
-   la cabecera X-Auth-Token) y muestra cada resultado en una tabla dinámica
-   dentro del modal centrado.
-*/
-
 const API_TOKEN = "21f1e35ebddb45f091be4126a0347acf";
 const API_BASE = "https://api.football-data.org/v4";
 
-// Mundial 2026 (FIFA World Cup), el torneo real de esta web.
-// Se está disputando ahora mismo (11 jun - 19 jul 2026), así que ya hay
-// partidos finalizados y goleadores reales para consultar.
 const COMPETITION_CODE = "WC";
 const SEASON = "2026";
 
-/* La API devuelve los nombres de los equipos (países) en inglés.
-   Traducimos los más comunes; si un país no está en la lista,
-   se muestra tal cual viene de la API. */
 const TEAM_NAME_ES = {
   Spain: "España",
   Germany: "Alemania",
@@ -86,7 +74,6 @@ function translateTeamName(name) {
   return TEAM_NAME_ES[name] ?? name;
 }
 
-/* Función auxiliar para procesar los partidos y acumular estadísticas por equipo */
 function processMatchData(data) {
   const matches = data?.matches ?? [];
   const teamStats = {};
@@ -100,10 +87,18 @@ function processMatchData(data) {
     const awayGoals = match.score?.fullTime?.away ?? 0;
 
     if (!teamStats[homeTeam]) {
-      teamStats[homeTeam] = { goalsFor: 0, goalsAgainst: 0, flag: match.homeTeam.crest };
+      teamStats[homeTeam] = {
+        goalsFor: 0,
+        goalsAgainst: 0,
+        flag: match.homeTeam.crest,
+      };
     }
     if (!teamStats[awayTeam]) {
-      teamStats[awayTeam] = { goalsFor: 0, goalsAgainst: 0, flag: match.awayTeam.crest };
+      teamStats[awayTeam] = {
+        goalsFor: 0,
+        goalsAgainst: 0,
+        flag: match.awayTeam.crest,
+      };
     }
 
     teamStats[homeTeam].goalsFor += homeGoals;
@@ -116,7 +111,6 @@ function processMatchData(data) {
   return teamStats;
 }
 
-/* Configuración de cada botón */
 const statsConfig = {
   teamScorer: {
     title: "Equipo Máx. Goleador",
@@ -163,7 +157,6 @@ const statsConfig = {
   },
 };
 
-/* Referencias del DOM */
 const statButtons = document.querySelectorAll(".selector [data-stat]");
 const modal = document.getElementById("statsModal");
 const modalTitle = document.getElementById("statsModalTitle");
@@ -171,7 +164,6 @@ const tableHead = document.getElementById("statsTableHead");
 const tableBody = document.getElementById("statsTableBody");
 const modalClose = document.getElementById("statsModalClose");
 
-/* Cache simple para no repetir la misma llamada a la API */
 const cache = {};
 
 function openModal() {
@@ -196,8 +188,6 @@ function renderTable(rows) {
     return;
   }
 
-  // Las claves que empiezan con "_" son datos auxiliares (ej. la bandera)
-  // y no deben mostrarse como columna propia.
   const columns = Object.keys(rows[0]).filter((col) => !col.startsWith("_"));
 
   const headRow = document.createElement("tr");
@@ -239,16 +229,11 @@ function renderTable(rows) {
   });
 }
 
-/* Obtiene (y cachea) las filas ya procesadas para un botón concreto */
 async function fetchStatsRows(key) {
   if (cache[key]) return cache[key];
 
   const config = statsConfig[key];
 
-  // football-data.org no siempre permite CORS directo desde localhost,
-  // así que pasamos por corsproxy.io, que SÍ reenvía cabeceras personalizadas
-  // (a diferencia de otros proxies como allorigins) y devuelve la respuesta
-  // tal cual, sin envolverla en JSON.
   const proxiedUrl = `https://corsproxy.io/?url=${encodeURIComponent(config.endpoint)}`;
 
   const response = await fetch(proxiedUrl, {
@@ -260,9 +245,7 @@ async function fetchStatsRows(key) {
     try {
       const errorBody = await response.json();
       detail = errorBody.message || detail;
-    } catch (_) {
-      /* la respuesta de error no era JSON, usamos statusText */
-    }
+    } catch (_) {}
     throw new Error(`(${response.status}) ${detail}`);
   }
 
@@ -289,8 +272,6 @@ async function loadStats(key) {
   }
 }
 
-/* ---------- Tarjetas de líder (debajo de cada botón) ---------- */
-
 function renderLeaderCard(card, row) {
   card.innerHTML = "";
 
@@ -311,10 +292,10 @@ function renderLeaderCard(card, row) {
 
   const sub = document.createElement("p");
   sub.className = "leaderSub";
-  sub.textContent = row.Jugador ? row.Equipo ?? "" : "";
+  sub.textContent = row.Jugador ? (row.Equipo ?? "") : "";
 
   const statKey = Object.keys(row).find(
-    (k) => !k.startsWith("_") && k !== "Jugador" && k !== "Equipo"
+    (k) => !k.startsWith("_") && k !== "Jugador" && k !== "Equipo",
   );
 
   const value = document.createElement("p");
