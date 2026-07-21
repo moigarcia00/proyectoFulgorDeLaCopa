@@ -1,11 +1,3 @@
-:root {
-  --matchesTextColor: #eef2f7;
-  --matchesMutedTextColor: #94a3b8; /* mismo tono que footer-links/copyright */
-  --matchesCardBackgroundAlt: #10203a; /* variación de --navy-mid para filas pares */
-  --liveColor: #e63946;
-  --borderRadius: 10px;
-}
-
 .schedule {
   max-width: 900px;
   margin: 0 auto;
@@ -93,11 +85,17 @@
   flex-wrap: wrap;
   gap: 8px 16px;
   padding: 12px 18px;
-  border-bottom: 1px solid #0055a566;
+  background-color: #060f20;
+  border-bottom: 1px solid rgba(212, 163, 91, 0.15);
+  transition: background-color 0.2s ease;
 }
 
 .match:nth-child(even) {
-  background-color: var(--matchesCardBackgroundAlt);
+  background-color: #111c2e;
+}
+
+.match:hover {
+  background-color: rgba(212, 163, 91, 0.08);
 }
 
 .match:last-child {
