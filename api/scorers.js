@@ -3,6 +3,10 @@ export default async function handler(request, response) {
   response.setHeader('Access-Control-Allow-Methods', 'GET');
   response.setHeader('Content-Type', 'application/json');
 
+  if (request.method === 'OPTIONS') {
+    return response.status(200).end();
+  }
+
   const apiKey = process.env.FOOTBALL_API_KEY;
   const apiUrl = "https://api.football-data.org/v4/competitions/WC/scorers?season=2026";
 

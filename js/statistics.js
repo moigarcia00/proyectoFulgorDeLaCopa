@@ -1,3 +1,15 @@
+// Configuración de la URL Base según el entorno:
+// Si estás en local (localhost o IP local), apuntará a tu despliegue en Vercel.
+// Si estás en producción en Vercel, usará las rutas relativas vacías ("").
+const IS_LOCAL =
+  window.location.hostname === "localhost" ||
+  window.location.hostname === "127.0.0.1";
+
+// ⚠️ REEMPLAZA ESTA URL CON EL DOMINIO REAL DE TU PROYECTO EN VERCEL
+const VERCEL_PROD_URL = "https://proyecto-fulgor-de-la-copa.vercel.app";
+
+const API_BASE_URL = IS_LOCAL ? VERCEL_PROD_URL : "";
+
 const TEAM_NAME_ES = {
   Spain: "España",
   Germany: "Alemania",
@@ -105,14 +117,10 @@ function processMatchData(data) {
   return teamStats;
 }
 
-// Los endpoints ahora apuntan a nuestras propias funciones serverless de Vercel
-// (/api/matches y /api/scorers), que son las que guardan la API key de
-// football-data.org en la variable de entorno FOOTBALL_API_KEY. Así el token
-// nunca viaja al navegador ni queda expuesto en el código fuente.
 const statsConfig = {
-  teamScorer: {
+teamScorer: {
     title: "Equipo Máx. Goleador",
-    endpoint: "/api/matches",
+    endpoint: `${API_BASE_URL}/api/matches`,
     buildRows(data) {
       const stats = processMatchData(data);
       return Object.entries(stats)
@@ -127,7 +135,7 @@ const statsConfig = {
 
   playerScorer: {
     title: "Jugador Máx. Goleador",
-    endpoint: "/api/scorers",
+    endpoint: `${API_BASE_URL}/api/scorers`,
     buildRows(data) {
       const scorers = data?.scorers ?? [];
       return scorers.map((row) => ({
@@ -141,7 +149,7 @@ const statsConfig = {
 
   teamConceded: {
     title: "Equipo Máx. Encajados",
-    endpoint: "/api/matches",
+    endpoint: `${API_BASE_URL}/api/matches`,
     buildRows(data) {
       const stats = processMatchData(data);
       return Object.entries(stats)
@@ -162,8 +170,6 @@ const tableHead = document.getElementById("statsTableHead");
 const tableBody = document.getElementById("statsTableBody");
 const modalClose = document.getElementById("statsModalClose");
 
-// Cache por endpoint (no por stat) para no pedir /api/matches dos veces
-// cuando teamScorer y teamConceded usan la misma fuente de datos.
 const endpointCache = {};
 
 function openModal() {
