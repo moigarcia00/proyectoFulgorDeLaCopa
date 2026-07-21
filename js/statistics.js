@@ -1,15 +1,11 @@
-/* statistics.js
-   Llama a la API de Football-Data a través de corsproxy.io (que reenvía
-   la cabecera X-Auth-Token) y muestra cada resultado en una tabla dinámica
-   dentro del modal centrado.
-*/
+/* statistics.js */
 
-const API_TOKEN = "21f1e35ebddb45f091be4126a0347acf";
-const API_BASE = "https://api.football-data.org/v4";
+// Detecta si estás ejecutando el proyecto en entorno local
+const IS_LOCAL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
 
-// Mundial 2026 (FIFA World Cup), el torneo real de esta web.
-// Se está disputando ahora mismo (11 jun - 19 jul 2026), así que ya hay
-// partidos finalizados y goleadores reales para consultar.
+// Configuración para ejecución local
+const API_TOKEN_LOCAL = "21f1e35ebddb45f091be4126a0347acf";
+const API_BASE_EXTERNAL = "https://api.football-data.org/v4";
 const COMPETITION_CODE = "WC";
 const SEASON = "2026";
 
@@ -120,7 +116,9 @@ function processMatchData(data) {
 const statsConfig = {
   teamScorer: {
     title: "Equipo Máx. Goleador",
-    endpoint: `${API_BASE}/competitions/${COMPETITION_CODE}/matches?season=${SEASON}`,
+    endpoint: IS_LOCAL
+      ? `https://corsproxy.io/?url=${encodeURIComponent(`${API_BASE_EXTERNAL}/competitions/${COMPETITION_CODE}/matches?season=${SEASON}`)}`
+      : `/api/matchesv2`,
     buildRows(data) {
       const stats = processMatchData(data);
       return Object.entries(stats)
@@ -135,7 +133,9 @@ const statsConfig = {
 
   playerScorer: {
     title: "Jugador Máx. Goleador",
-    endpoint: `${API_BASE}/competitions/${COMPETITION_CODE}/scorers?season=${SEASON}`,
+    endpoint: IS_LOCAL
+      ? `https://corsproxy.io/?url=${encodeURIComponent(`${API_BASE_EXTERNAL}/competitions/${COMPETITION_CODE}/scorers?season=${SEASON}`)}`
+      : `/api/scorers`,
     buildRows(data) {
       const scorers = data?.scorers ?? [];
       return scorers.map((row) => ({
@@ -149,7 +149,9 @@ const statsConfig = {
 
   teamConceded: {
     title: "Equipo Máx. Encajados",
-    endpoint: `${API_BASE}/competitions/${COMPETITION_CODE}/matches?season=${SEASON}`,
+    endpoint: IS_LOCAL
+      ? `https://corsproxy.io/?url=${encodeURIComponent(`${API_BASE_EXTERNAL}/competitions/${COMPETITION_CODE}/matches?season=${SEASON}`)}`
+      : `/api/matches`,
     buildRows(data) {
       const stats = processMatchData(data);
       return Object.entries(stats)
@@ -196,8 +198,6 @@ function renderTable(rows) {
     return;
   }
 
-  // Las claves que empiezan con "_" son datos auxiliares (ej. la bandera)
-  // y no deben mostrarse como columna propia.
   const columns = Object.keys(rows[0]).filter((col) => !col.startsWith("_"));
 
   const headRow = document.createElement("tr");
@@ -244,24 +244,17 @@ async function fetchStatsRows(key) {
   if (cache[key]) return cache[key];
 
   const config = statsConfig[key];
+  const headers = IS_LOCAL ? { "X-Auth-Token": API_TOKEN_LOCAL } : {};
 
-  // football-data.org no siempre permite CORS directo desde localhost,
-  // así que pasamos por corsproxy.io, que SÍ reenvía cabeceras personalizadas
-  // (a diferencia de otros proxies como allorigins) y devuelve la respuesta
-  // tal cual, sin envolverla en JSON.
-  const proxiedUrl = `https://corsproxy.io/?url=${encodeURIComponent(config.endpoint)}`;
-
-  const response = await fetch(proxiedUrl, {
-    headers: { "X-Auth-Token": API_TOKEN },
-  });
+  const response = await fetch(config.endpoint, { headers });
 
   if (!response.ok) {
     let detail = response.statusText;
     try {
       const errorBody = await response.json();
-      detail = errorBody.message || detail;
+      detail = errorBody.message || errorBody.error || detail;
     } catch (_) {
-      /* la respuesta de error no era JSON, usamos statusText */
+      /* la respuesta de error no era JSON */
     }
     throw new Error(`(${response.status}) ${detail}`);
   }
