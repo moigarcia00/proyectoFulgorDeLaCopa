@@ -1,14 +1,9 @@
 // Configuración de la URL Base según el entorno:
-// Si estás en local (localhost o IP local), apuntará a tu despliegue en Vercel.
-// Si estás en producción en Vercel, usará las rutas relativas vacías ("").
-const IS_LOCAL =
-  window.location.hostname === "localhost" ||
-  window.location.hostname === "127.0.0.1";
-
-// ⚠️ REEMPLAZA ESTA URL CON EL DOMINIO REAL DE TU PROYECTO EN VERCEL
+// Si no estamos en el dominio final de Vercel, apuntará a Vercel para responder en local.
 const VERCEL_PROD_URL = "https://proyecto-fulgor-de-la-copa.vercel.app";
 
-const API_BASE_URL = IS_LOCAL ? VERCEL_PROD_URL : "";
+const IS_PRODUCTION = window.location.origin === VERCEL_PROD_URL;
+const API_BASE_URL = IS_PRODUCTION ? "" : VERCEL_PROD_URL;
 
 const TEAM_NAME_ES = {
   Spain: "España",
@@ -118,7 +113,7 @@ function processMatchData(data) {
 }
 
 const statsConfig = {
-teamScorer: {
+  teamScorer: {
     title: "Equipo Máx. Goleador",
     endpoint: `${API_BASE_URL}/api/matches`,
     buildRows(data) {
