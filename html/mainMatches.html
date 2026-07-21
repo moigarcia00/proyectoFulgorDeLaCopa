@@ -9,51 +9,46 @@
     <link rel="stylesheet" href="../css/nav.css" />
     <link rel="stylesheet" href="../css/footer.css" />
   </head>
-   <header>
+  <body>
+    <header>
       <nav id="worldNavbar"></nav>
     </header>
     <main>
-        <h1>
-            Próximos partidos y resultados - Agenda del torneo
-        </h1>
+      <h1>Próximos partidos y resultados - Agenda del torneo</h1>
 
-        <section class="matchGroup">
-      <h2 class="matchGroupTitle">
-        <span class="icon" aria-hidden="true">📅</span>
-        Programados
-        <span class="counter" id="scheduledCounter">(0)</span>
-      </h2>
-      <div class="matchList" id="scheduledList">
-      </div>
-    </section>
- 
-    <section class="matchGroup matchGroupLive">
-      <h2 class="matchGroupTitle">
-        <span class="icon iconLive" aria-hidden="true">🔴</span>
-        En vivo
-        <span class="counter" id="liveCounter">(0)</span>
-      </h2>
-      <div class="matchList" id="liveList">
-      </div>
-    </section>
- 
-    <section class="matchGroup">
-      <h2 class="matchGroupTitle">
-        <span class="icon" aria-hidden="true">🏁</span>
-        Finalizados
-        <span class="counter" id="finishedCounter">(0)</span>
-      </h2>
-      <div class="matchList" id="finishedList">
-      </div>
-    </section>
+      <section class="matchGroup">
+        <h2 class="matchGroupTitle">
+          <span class="icon" aria-hidden="true">📅</span>
+          Programados
+          <span class="counter" id="scheduledCounter">(0)</span>
+        </h2>
+        <div class="matchList" id="scheduledList"></div>
+      </section>
 
+      <section class="matchGroup matchGroupLive">
+        <h2 class="matchGroupTitle">
+          <span class="icon iconLive" aria-hidden="true">🔴</span>
+          En vivo
+          <span class="counter" id="liveCounter">(0)</span>
+        </h2>
+        <div class="matchList" id="liveList"></div>
+      </section>
+
+      <section class="matchGroup">
+        <h2 class="matchGroupTitle">
+          <span class="icon" aria-hidden="true">🏁</span>
+          Finalizados
+          <span class="counter" id="finishedCounter">(0)</span>
+        </h2>
+        <div class="matchList" id="finishedList"></div>
+      </section>
     </main>
 
-   <footer id="footer-placeholder"></footer>
+    <footer id="footer-placeholder"></footer>
 
     <div class="vignette"></div>
     <script src="../js/nav.js"></script>
     <script src="../js/mainMatches.js"></script>
     <script src="../js/footer.js"></script>
-  <body>
-  </html>
+  </body>
+</html>
