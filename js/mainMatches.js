@@ -6,6 +6,72 @@ const COMPETITION_CODE = "WC";
 
 const REFRESH_INTERVAL_MS = 60000;
 
+const TEAM_NAME_ES = {
+  Spain: "España",
+  Germany: "Alemania",
+  France: "Francia",
+  England: "Inglaterra",
+  Italy: "Italia",
+  Portugal: "Portugal",
+  Netherlands: "Países Bajos",
+  Belgium: "Bélgica",
+  Croatia: "Croacia",
+  Switzerland: "Suiza",
+  Poland: "Polonia",
+  Austria: "Austria",
+  Denmark: "Dinamarca",
+  Sweden: "Suecia",
+  Norway: "Noruega",
+  Serbia: "Serbia",
+  Wales: "Gales",
+  Scotland: "Escocia",
+  "Republic of Ireland": "Irlanda",
+  Ukraine: "Ucrania",
+  Turkey: "Turquía",
+  Greece: "Grecia",
+  Hungary: "Hungría",
+  Romania: "Rumanía",
+  Slovakia: "Eslovaquia",
+  Slovenia: "Eslovenia",
+  "Czech Republic": "Chequia",
+  Iceland: "Islandia",
+  Brazil: "Brasil",
+  Argentina: "Argentina",
+  Uruguay: "Uruguay",
+  Colombia: "Colombia",
+  Chile: "Chile",
+  Peru: "Perú",
+  Ecuador: "Ecuador",
+  Paraguay: "Paraguay",
+  Bolivia: "Bolivia",
+  Venezuela: "Venezuela",
+  Mexico: "México",
+  "United States": "Estados Unidos",
+  Canada: "Canadá",
+  "Costa Rica": "Costa Rica",
+  Panama: "Panamá",
+  Honduras: "Honduras",
+  Jamaica: "Jamaica",
+  Japan: "Japón",
+  "South Korea": "Corea del Sur",
+  "Korea Republic": "Corea del Sur",
+  Australia: "Australia",
+  "Saudi Arabia": "Arabia Saudita",
+  Iran: "Irán",
+  Qatar: "Catar",
+  Morocco: "Marruecos",
+  Senegal: "Senegal",
+  Tunisia: "Túnez",
+  Algeria: "Argelia",
+  Egypt: "Egipto",
+  Nigeria: "Nigeria",
+  Ghana: "Ghana",
+  Cameroon: "Camerún",
+  "Ivory Coast": "Costa de Marfil",
+  "South Africa": "Sudáfrica",
+  "New Zealand": "Nueva Zelanda",
+};
+
 function buildUrl(endpoint) {
   const targetUrl = `${API_URL}${endpoint}`;
   return `${CORS_PROXY_URL}${encodeURIComponent(targetUrl)}`;
@@ -75,6 +141,11 @@ function getScore(match) {
   return { home, away };
 }
 
+function getTeamName(team, fallback = "Equipo") {
+  if (!team?.name) return fallback;
+  return TEAM_NAME_ES[team.name] ?? team.name;
+}
+
 function createFlagImage(team) {
   const name = team?.name ?? "Equipo";
   const crest = team?.crest;
@@ -92,13 +163,13 @@ function createScheduledCard(match) {
     <span class="matchDate">${dateLabel} - ${time}</span>
     <div class="matchTeams">
       <span class="team teamHome">
-        ${match.homeTeam?.name ?? "Por confirmar"}
+        ${getTeamName(match.homeTeam, "Por confirmar")}
         ${createFlagImage(match.homeTeam)}
       </span>
       <span class="matchScore">${time}</span>
       <span class="team teamAway">
         ${createFlagImage(match.awayTeam)}
-        ${match.awayTeam?.name ?? "Por confirmar"}
+        ${getTeamName(match.awayTeam, "Por confirmar")}
       </span>
     </div>
     <span class="matchVenue">📍 ${match.venue ?? "Por confirmar"}</span>
@@ -117,7 +188,7 @@ function createLiveCard(match) {
   article.innerHTML = `
     <div class="matchTeams">
       <span class="team teamHome">
-        ${match.homeTeam?.name ?? "Equipo"}
+        ${getTeamName(match.homeTeam)}
         ${createFlagImage(match.homeTeam)}
       </span>
       <span class="matchScore matchScoreLive">
@@ -125,7 +196,7 @@ function createLiveCard(match) {
       </span>
       <span class="team teamAway">
         ${createFlagImage(match.awayTeam)}
-        ${match.awayTeam?.name ?? "Equipo"}
+        ${getTeamName(match.awayTeam)}
       </span>
     </div>
     <span class="matchStatus">${minute}</span>
@@ -146,13 +217,13 @@ function createFinishedCard(match) {
     <span class="matchDate">${dateLabel}</span>
     <div class="matchTeams">
       <span class="team teamHome">
-        ${match.homeTeam?.name ?? "Equipo"}
+        ${getTeamName(match.homeTeam)}
         ${createFlagImage(match.homeTeam)}
       </span>
       <span class="matchScore">${home ?? "-"} - ${away ?? "-"}</span>
       <span class="team teamAway">
         ${createFlagImage(match.awayTeam)}
-        ${match.awayTeam?.name ?? "Equipo"}
+        ${getTeamName(match.awayTeam)}
       </span>
     </div>
     <span class="matchVenue">📍 ${match.venue ?? "Por confirmar"}</span>
