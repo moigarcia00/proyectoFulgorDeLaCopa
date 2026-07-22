@@ -1,6 +1,4 @@
-/* statistics.js */
 
-// Detecta si estás ejecutando el proyecto en entorno local
 const IS_LOCAL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
 
 // Configuración para ejecución local
@@ -9,9 +7,6 @@ const API_BASE_EXTERNAL = "https://api.football-data.org/v4";
 const COMPETITION_CODE = "WC";
 const SEASON = "2026";
 
-/* La API devuelve los nombres de los equipos (países) en inglés.
-   Traducimos los más comunes; si un país no está en la lista,
-   se muestra tal cual viene de la API. */
 const TEAM_NAME_ES = {
   Spain: "España",
   Germany: "Alemania",
@@ -82,7 +77,6 @@ function translateTeamName(name) {
   return TEAM_NAME_ES[name] ?? name;
 }
 
-/* Función auxiliar para procesar los partidos y acumular estadísticas por equipo */
 function processMatchData(data) {
   const matches = data?.matches ?? [];
   const teamStats = {};
@@ -112,7 +106,6 @@ function processMatchData(data) {
   return teamStats;
 }
 
-/* Configuración de cada botón */
 const statsConfig = {
   teamScorer: {
     title: "Equipo Máx. Goleador",
@@ -165,7 +158,6 @@ const statsConfig = {
   },
 };
 
-/* Referencias del DOM */
 const statButtons = document.querySelectorAll(".selector [data-stat]");
 const modal = document.getElementById("statsModal");
 const modalTitle = document.getElementById("statsModalTitle");
@@ -173,7 +165,6 @@ const tableHead = document.getElementById("statsTableHead");
 const tableBody = document.getElementById("statsTableBody");
 const modalClose = document.getElementById("statsModalClose");
 
-/* Cache simple para no repetir la misma llamada a la API */
 const cache = {};
 
 function openModal() {
@@ -239,7 +230,6 @@ function renderTable(rows) {
   });
 }
 
-/* Obtiene (y cachea) las filas ya procesadas para un botón concreto */
 async function fetchStatsRows(key) {
   if (cache[key]) return cache[key];
 
@@ -282,7 +272,6 @@ async function loadStats(key) {
   }
 }
 
-/* ---------- Tarjetas de líder (debajo de cada botón) ---------- */
 
 function renderLeaderCard(card, row) {
   card.innerHTML = "";

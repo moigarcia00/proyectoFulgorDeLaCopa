@@ -1,10 +1,8 @@
 export default async function handler(request, response) {
-  // Permite peticiones desde cualquier origen
   response.setHeader('Access-Control-Allow-Origin', '*');
   response.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
   response.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
-  // Responde de inmediato a la verificación de seguridad CORS (OPTIONS)
   if (request.method === 'OPTIONS') {
     return response.status(200).end();
   }
