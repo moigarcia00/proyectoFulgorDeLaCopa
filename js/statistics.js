@@ -1,6 +1,7 @@
-const API_TOKEN = "21f1e35ebddb45f091be4126a0347acf";
-const API_BASE = "https://api.football-data.org/v4";
+const IS_LOCAL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
 
+const API_TOKEN_LOCAL = "4b51275c546a4e4db7c535a5e18c82e4";
+const API_BASE_EXTERNAL = "https://api.football-data.org/v4";
 const COMPETITION_CODE = "WC";
 const SEASON = "2026";
 
@@ -87,18 +88,10 @@ function processMatchData(data) {
     const awayGoals = match.score?.fullTime?.away ?? 0;
 
     if (!teamStats[homeTeam]) {
-      teamStats[homeTeam] = {
-        goalsFor: 0,
-        goalsAgainst: 0,
-        flag: match.homeTeam.crest,
-      };
+      teamStats[homeTeam] = { goalsFor: 0, goalsAgainst: 0, flag: match.homeTeam.crest };
     }
     if (!teamStats[awayTeam]) {
-      teamStats[awayTeam] = {
-        goalsFor: 0,
-        goalsAgainst: 0,
-        flag: match.awayTeam.crest,
-      };
+      teamStats[awayTeam] = { goalsFor: 0, goalsAgainst: 0, flag: match.awayTeam.crest };
     }
 
     teamStats[homeTeam].goalsFor += homeGoals;
@@ -111,10 +104,19 @@ function processMatchData(data) {
   return teamStats;
 }
 
+function getApiEndpoint(type) {
+  const externalUrl = `${API_BASE_EXTERNAL}/competitions/${COMPETITION_CODE}/${type}?season=${SEASON}`;
+  if (IS_LOCAL) {
+    return `https://corsproxy.io/?url=${encodeURIComponent(externalUrl)}`;
+  } else {
+    return type === 'scorers' ? `/api/matches?endpoint=scorers` : `/api/matches`;
+  }
+}
+
 const statsConfig = {
   teamScorer: {
     title: "Equipo Máx. Goleador",
-    endpoint: `${API_BASE}/competitions/${COMPETITION_CODE}/matches?season=${SEASON}`,
+    endpoint: getApiEndpoint("matches"),
     buildRows(data) {
       const stats = processMatchData(data);
       return Object.entries(stats)
@@ -129,7 +131,7 @@ const statsConfig = {
 
   playerScorer: {
     title: "Jugador Máx. Goleador",
-    endpoint: `${API_BASE}/competitions/${COMPETITION_CODE}/scorers?season=${SEASON}`,
+    endpoint: getApiEndpoint("scorers"),
     buildRows(data) {
       const scorers = data?.scorers ?? [];
       return scorers.map((row) => ({
@@ -143,7 +145,7 @@ const statsConfig = {
 
   teamConceded: {
     title: "Equipo Máx. Encajados",
-    endpoint: `${API_BASE}/competitions/${COMPETITION_CODE}/matches?season=${SEASON}`,
+    endpoint: getApiEndpoint("matches"),
     buildRows(data) {
       const stats = processMatchData(data);
       return Object.entries(stats)
@@ -233,18 +235,15 @@ async function fetchStatsRows(key) {
   if (cache[key]) return cache[key];
 
   const config = statsConfig[key];
+  const headers = IS_LOCAL ? { "X-Auth-Token": API_TOKEN_LOCAL } : {};
 
-  const proxiedUrl = `https://corsproxy.io/?url=${encodeURIComponent(config.endpoint)}`;
-
-  const response = await fetch(proxiedUrl, {
-    headers: { "X-Auth-Token": API_TOKEN },
-  });
+  const response = await fetch(config.endpoint, { headers });
 
   if (!response.ok) {
     let detail = response.statusText;
     try {
       const errorBody = await response.json();
-      detail = errorBody.message || detail;
+      detail = errorBody.message || errorBody.error || detail;
     } catch (_) {}
     throw new Error(`(${response.status}) ${detail}`);
   }
@@ -292,10 +291,10 @@ function renderLeaderCard(card, row) {
 
   const sub = document.createElement("p");
   sub.className = "leaderSub";
-  sub.textContent = row.Jugador ? (row.Equipo ?? "") : "";
+  sub.textContent = row.Jugador ? row.Equipo ?? "" : "";
 
   const statKey = Object.keys(row).find(
-    (k) => !k.startsWith("_") && k !== "Jugador" && k !== "Equipo",
+    (k) => !k.startsWith("_") && k !== "Jugador" && k !== "Equipo"
   );
 
   const value = document.createElement("p");
