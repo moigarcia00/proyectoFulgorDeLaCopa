@@ -1,8 +1,7 @@
 
 const IS_LOCAL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
 
-// Configuración para ejecución local
-const API_TOKEN_LOCAL = "21f1e35ebddb45f091be4126a0347acf";
+const API_TOKEN_LOCAL = "4b51275c546a4e4db7c535a5e18c82e4";
 const API_BASE_EXTERNAL = "https://api.football-data.org/v4";
 const COMPETITION_CODE = "WC";
 const SEASON = "2026";
@@ -244,7 +243,6 @@ async function fetchStatsRows(key) {
       const errorBody = await response.json();
       detail = errorBody.message || errorBody.error || detail;
     } catch (_) {
-      /* la respuesta de error no era JSON */
     }
     throw new Error(`(${response.status}) ${detail}`);
   }
