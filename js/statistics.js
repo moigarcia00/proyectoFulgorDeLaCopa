@@ -110,7 +110,7 @@ const statsConfig = {
     title: "Equipo Máx. Goleador",
     endpoint: IS_LOCAL
       ? `https://corsproxy.io/?url=${encodeURIComponent(`${API_BASE_EXTERNAL}/competitions/${COMPETITION_CODE}/matches?season=${SEASON}`)}`
-      : `/api/matchesv2`,
+      : `/api/matches.js`,
     buildRows(data) {
       const stats = processMatchData(data);
       return Object.entries(stats)
