@@ -1,17 +1,10 @@
-/* statistics.js */
-
-// Detecta si estás ejecutando el proyecto en entorno local
 const IS_LOCAL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
 
-// Configuración para ejecución local
-const API_TOKEN_LOCAL = "21f1e35ebddb45f091be4126a0347acf";
+const API_TOKEN_LOCAL = "4b51275c546a4e4db7c535a5e18c82e4";
 const API_BASE_EXTERNAL = "https://api.football-data.org/v4";
 const COMPETITION_CODE = "WC";
 const SEASON = "2026";
 
-/* La API devuelve los nombres de los equipos (países) en inglés.
-   Traducimos los más comunes; si un país no está en la lista,
-   se muestra tal cual viene de la API. */
 const TEAM_NAME_ES = {
   Spain: "España",
   Germany: "Alemania",
@@ -82,7 +75,6 @@ function translateTeamName(name) {
   return TEAM_NAME_ES[name] ?? name;
 }
 
-/* Función auxiliar para procesar los partidos y acumular estadísticas por equipo */
 function processMatchData(data) {
   const matches = data?.matches ?? [];
   const teamStats = {};
@@ -112,13 +104,19 @@ function processMatchData(data) {
   return teamStats;
 }
 
-/* Configuración de cada botón */
+function getApiEndpoint(type) {
+  const externalUrl = `${API_BASE_EXTERNAL}/competitions/${COMPETITION_CODE}/${type}?season=${SEASON}`;
+  if (IS_LOCAL) {
+    return `https://corsproxy.io/?url=${encodeURIComponent(externalUrl)}`;
+  } else {
+    return type === 'scorers' ? `/api/matches?endpoint=scorers` : `/api/matches`;
+  }
+}
+
 const statsConfig = {
   teamScorer: {
     title: "Equipo Máx. Goleador",
-    endpoint: IS_LOCAL
-      ? `https://corsproxy.io/?url=${encodeURIComponent(`${API_BASE_EXTERNAL}/competitions/${COMPETITION_CODE}/matches?season=${SEASON}`)}`
-      : `/api/matchesv2`,
+    endpoint: getApiEndpoint("matches"),
     buildRows(data) {
       const stats = processMatchData(data);
       return Object.entries(stats)
@@ -133,9 +131,7 @@ const statsConfig = {
 
   playerScorer: {
     title: "Jugador Máx. Goleador",
-    endpoint: IS_LOCAL
-      ? `https://corsproxy.io/?url=${encodeURIComponent(`${API_BASE_EXTERNAL}/competitions/${COMPETITION_CODE}/scorers?season=${SEASON}`)}`
-      : `/api/scorers`,
+    endpoint: getApiEndpoint("scorers"),
     buildRows(data) {
       const scorers = data?.scorers ?? [];
       return scorers.map((row) => ({
@@ -149,9 +145,7 @@ const statsConfig = {
 
   teamConceded: {
     title: "Equipo Máx. Encajados",
-    endpoint: IS_LOCAL
-      ? `https://corsproxy.io/?url=${encodeURIComponent(`${API_BASE_EXTERNAL}/competitions/${COMPETITION_CODE}/matches?season=${SEASON}`)}`
-      : `/api/matches`,
+    endpoint: getApiEndpoint("matches"),
     buildRows(data) {
       const stats = processMatchData(data);
       return Object.entries(stats)
@@ -165,7 +159,6 @@ const statsConfig = {
   },
 };
 
-/* Referencias del DOM */
 const statButtons = document.querySelectorAll(".selector [data-stat]");
 const modal = document.getElementById("statsModal");
 const modalTitle = document.getElementById("statsModalTitle");
@@ -173,7 +166,6 @@ const tableHead = document.getElementById("statsTableHead");
 const tableBody = document.getElementById("statsTableBody");
 const modalClose = document.getElementById("statsModalClose");
 
-/* Cache simple para no repetir la misma llamada a la API */
 const cache = {};
 
 function openModal() {
@@ -239,7 +231,6 @@ function renderTable(rows) {
   });
 }
 
-/* Obtiene (y cachea) las filas ya procesadas para un botón concreto */
 async function fetchStatsRows(key) {
   if (cache[key]) return cache[key];
 
@@ -253,9 +244,7 @@ async function fetchStatsRows(key) {
     try {
       const errorBody = await response.json();
       detail = errorBody.message || errorBody.error || detail;
-    } catch (_) {
-      /* la respuesta de error no era JSON */
-    }
+    } catch (_) {}
     throw new Error(`(${response.status}) ${detail}`);
   }
 
@@ -281,8 +270,6 @@ async function loadStats(key) {
     renderMessage(`⚠️ Error: ${error.message}`);
   }
 }
-
-/* ---------- Tarjetas de líder (debajo de cada botón) ---------- */
 
 function renderLeaderCard(card, row) {
   card.innerHTML = "";

@@ -1,8 +1,9 @@
-const API_TOKEN = "63e6ff0832004934adcb15c84d14bb87";
- 
-const API_URL = "https://api.football-data.org/v4";
-const CORS_PROXY_URL = "https://corsproxy.io/?url=";
+const IS_LOCAL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+const API_TOKEN_LOCAL = "4b51275c546a4e4db7c535a5e18c82e4";
+
+const API_BASE_EXTERNAL = "https://api.football-data.org/v4";
 const COMPETITION_CODE = "WC";
+const SEASON = "2026";
 
 const REFRESH_INTERVAL_MS = 60000;
 
@@ -72,19 +73,21 @@ const TEAM_NAME_ES = {
   "New Zealand": "Nueva Zelanda",
 };
 
-function buildUrl(endpoint) {
-  const targetUrl = `${API_URL}${endpoint}`;
-  return `${CORS_PROXY_URL}${encodeURIComponent(targetUrl)}`;
+function getApiEndpoint() {
+  const externalUrl = `${API_BASE_EXTERNAL}/competitions/${COMPETITION_CODE}/matches?season=${SEASON}`;
+  if (IS_LOCAL) {
+    return `https://corsproxy.io/?url=${encodeURIComponent(externalUrl)}`;
+  } else {
+    // Apunta a tu Serverless Function de Vercel
+    return `/api/matches`;
+  }
 }
 
 async function getWorldCupMatches() {
-  const url = buildUrl(`/competitions/${COMPETITION_CODE}/matches`);
+  const url = getApiEndpoint();
+  const headers = IS_LOCAL ? { "X-Auth-Token": API_TOKEN_LOCAL } : {};
 
-  const response = await fetch(url, {
-    headers: {
-      "X-Auth-Token": API_TOKEN,
-    },
-  });
+  const response = await fetch(url, { headers });
 
   if (!response.ok) {
     throw new Error(`Error ${response.status} al llamar a la API`);
@@ -236,6 +239,8 @@ function renderList(containerId, counterId, matches, createCard) {
   const container = document.getElementById(containerId);
   const counter = document.getElementById(counterId);
  
+  if (!container || !counter) return;
+
   container.innerHTML = "";
  
   if (matches.length === 0) {
@@ -251,8 +256,10 @@ function renderList(containerId, counterId, matches, createCard) {
 
 function showError(message) {
   ["scheduledList", "liveList", "finishedList"].forEach((id) => {
-    document.getElementById(id).innerHTML =
-      `<p class="match matchError">⚠️ ${message}</p>`;
+    const el = document.getElementById(id);
+    if (el) {
+      el.innerHTML = `<p class="match matchError">⚠️ ${message}</p>`;
+    }
   });
 }
 
@@ -272,6 +279,5 @@ async function loadAndRenderMatches() {
 
 document.addEventListener("DOMContentLoaded", () => {
   loadAndRenderMatches();
-
   setInterval(loadAndRenderMatches, REFRESH_INTERVAL_MS);
 });
