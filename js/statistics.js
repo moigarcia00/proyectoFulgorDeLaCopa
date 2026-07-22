@@ -1,4 +1,3 @@
-
 const IS_LOCAL = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
 
 const API_TOKEN_LOCAL = "4b51275c546a4e4db7c535a5e18c82e4";
@@ -105,12 +104,19 @@ function processMatchData(data) {
   return teamStats;
 }
 
+function getApiEndpoint(type) {
+  const externalUrl = `${API_BASE_EXTERNAL}/competitions/${COMPETITION_CODE}/${type}?season=${SEASON}`;
+  if (IS_LOCAL) {
+    return `https://corsproxy.io/?url=${encodeURIComponent(externalUrl)}`;
+  } else {
+    return type === 'scorers' ? `/api/matches?endpoint=scorers` : `/api/matches`;
+  }
+}
+
 const statsConfig = {
   teamScorer: {
     title: "Equipo Máx. Goleador",
-    endpoint: IS_LOCAL
-      ? `https://corsproxy.io/?url=${encodeURIComponent(`${API_BASE_EXTERNAL}/competitions/${COMPETITION_CODE}/matches?season=${SEASON}`)}`
-      : `/api/matches.js`,
+    endpoint: getApiEndpoint("matches"),
     buildRows(data) {
       const stats = processMatchData(data);
       return Object.entries(stats)
@@ -125,9 +131,7 @@ const statsConfig = {
 
   playerScorer: {
     title: "Jugador Máx. Goleador",
-    endpoint: IS_LOCAL
-      ? `https://corsproxy.io/?url=${encodeURIComponent(`${API_BASE_EXTERNAL}/competitions/${COMPETITION_CODE}/scorers?season=${SEASON}`)}`
-      : `/api/scorers`,
+    endpoint: getApiEndpoint("scorers"),
     buildRows(data) {
       const scorers = data?.scorers ?? [];
       return scorers.map((row) => ({
@@ -141,9 +145,7 @@ const statsConfig = {
 
   teamConceded: {
     title: "Equipo Máx. Encajados",
-    endpoint: IS_LOCAL
-      ? `https://corsproxy.io/?url=${encodeURIComponent(`${API_BASE_EXTERNAL}/competitions/${COMPETITION_CODE}/matches?season=${SEASON}`)}`
-      : `/api/matches`,
+    endpoint: getApiEndpoint("matches"),
     buildRows(data) {
       const stats = processMatchData(data);
       return Object.entries(stats)
@@ -242,8 +244,7 @@ async function fetchStatsRows(key) {
     try {
       const errorBody = await response.json();
       detail = errorBody.message || errorBody.error || detail;
-    } catch (_) {
-    }
+    } catch (_) {}
     throw new Error(`(${response.status}) ${detail}`);
   }
 
@@ -269,7 +270,6 @@ async function loadStats(key) {
     renderMessage(`⚠️ Error: ${error.message}`);
   }
 }
-
 
 function renderLeaderCard(card, row) {
   card.innerHTML = "";
