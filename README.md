@@ -1,6 +1,10 @@
-��﻿## ⚽ fulgorCupProject 
+## ⚽ fulgorCupProject 
 Pagina Web sobre el Mundial de futbol para el presidente de la FIFA Gianni Infantino.
 Proyecto diseñado en Figma como prototipo de lo que será la página web a desarrollar utilizando diferentes herramientas.
+
+## 🖼️ Vista previa
+![Página de inicio - Fulgor de la Copa](<img width="1348" height="608" alt="captura pantalla" src="https://github.com/user-attachments/assets/a5f0dee1-c32f-4c5b-8139-468259a4ab43" />
+)
 
 ## 🌐 API
 Este proyecto consume una API externa de fútbol para obtener datos reales (partidos, resultados, clasificaciones, etc.), utilizada **exclusivamente con fines educativos** en el marco de este bootcamp. No tiene fines comerciales ni de producción.
@@ -19,10 +23,10 @@ Este proyecto consume una API externa de fútbol para obtener datos reales (part
 ## 👥 Integrantes
 | Nombre | Rol | GitHub |
 | :--- | :--- | :--- |
-| Moisés García Sanz | Development / Scrum Master | [@moigarcia00](https://github.com/moigarcia00|
-| Simón López Saldarriaga | Development | [@simonlopez25](https://github.com/simonlopez25|
-| Beatriz Iñiguez Cascales | Product Owner / Development | [@Beatriz484](https://github.com/Beatriz484|
-| Marisa Ruíz Torres | Development | [@Marisa-Ruiz](https://github.com/Marisa-Ruiz|
+| Moisés García Sanz | Development / Scrum Master | [@moigarcia00](https://github.com/moigarcia00) |
+| Simón López Saldarriaga | Development | [@simonlopez25](https://github.com/simonlopez25) |
+| Beatriz Iñiguez Cascales | Product Owner / Development | [@Beatriz484](https://github.com/Beatriz484) |
+| Marisa Ruíz Torres | Development | [@Marisa-Ruiz](https://github.com/Marisa-Ruiz) |
 | Jhojann Sossa Zabala | Development | [@jhojannsossa](https://github.com/jhojannsossa) |
 
 ## 🎨 Diseño
