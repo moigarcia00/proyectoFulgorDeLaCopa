@@ -1,46 +1,86 @@
-main{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 30px;
-}
-h1,h2,h3{
-    color: #EFBB20;
-    text-align: center;
-    font-family: 'Arial', sans-serif;
+:root {
+  --gold: #f2a93b;
 }
 
-.index-paragraph{
-    color: #EFBB20;
-    text-align: center;
-    width: calc(100% - 300px);
-    font-family: 'source sans pro', sans-serif;
-    font-size: 14px;
-    z-index: 1;
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  font-family: "Poppins", sans-serif;
 }
-.highlight{
-    color: #EFBB20;
-    font-weight: bold;
-}
-.iconMundial{
-    display: block;
-    width: 100%;
-    max-width: 500px;
-    height: auto;
-}
-.img-wrapper {
-    padding: 20px;   
+
+.iconMundial {
+  display: block;
+  width: 100%;
+  max-width: 500px;
+  height: auto;
 }
 
 .imgIndex {
-    display: block;
-    width: 100%;       
-    max-width: 800px;  
-    margin: 0 auto;   
-    height: auto;
-    border-radius: 12px; 
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); 
-    transition: transform 0.3s ease; 
-    border: 1px solid rgba(255, 255, 255, 0.1); 
+  display: block;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.heroTitle {
+  color: var(--gold);
+  text-align: center;
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.heroSubtitle {
+  text-align: center;
+  color: #a9b7ca;
+  font-size: 15px;
+  line-height: 1.5;
+  max-width: 500px;
+  margin: 0 auto 32px;
+}
+
+.heroStats {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.heroStat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 28px;
+}
+
+.heroStatNumber {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--gold);
+}
+
+.heroStatLabel {
+  font-size: 12px;
+  color: #a9b7ca;
+  margin-top: 4px;
+}
+
+.heroStatDivider {
+  width: 1px;
+  height: 38px;
+  background-color: rgba(242, 169, 59, 0.25);
+}
+
+.heroTagline {
+  text-align: center;
+  color: var(--gold);
+  font-size: 18px;
+  font-weight: 600;
+}
