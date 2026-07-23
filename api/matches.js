@@ -1,7 +1,13 @@
 export default async function handler(request, response) {
   response.setHeader("Access-Control-Allow-Origin", "*");
-  response.setHeader("Access-Control-Allow-Methods", "GET");
-  response.setHeader("Content-Type", "application/json");
+  response.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
+  response.setHeader("Access-Control-Allow-Headers", "Content-Type, X-Auth-Token");
+  
+  response.setHeader("Cache-Control", "no-store, max-age=0");
+
+  if (request.method === "OPTIONS") {
+    return response.status(200).end();
+  }
 
   const apiKey = process.env.FOOTBALL_API_KEY;
   if (!apiKey) {

@@ -1,5 +1,4 @@
 body {
-    
     background-image: url("../img/background.webp");
     background-size: cover;
     background-position: center center;
@@ -34,7 +33,6 @@ body {
     color: #333;
 }
 
-
 .groups-container {
     max-width: 1200px;
     margin: 0 auto;
@@ -44,7 +42,6 @@ body {
 }
 
 .group-card {
-
     background-color: rgba(17, 28, 46, 0.92);
     border: 1px solid rgba(212, 163, 91, 0.35);
     border-radius: 12px;
@@ -53,14 +50,12 @@ body {
     padding: 20px;
 }
 
-
 .standing-table {
     width: 100%;
     border-collapse: collapse;
     font-size: 13px;
     text-align: left;
 }
-
 
 .standing-table thead th {
     background-color: #060f20;
@@ -78,7 +73,6 @@ body {
     text-align: left;
 }
 
-
 .text-center {
     text-align: center;
     color: #8a96a8;
@@ -88,7 +82,6 @@ body {
     font-weight: 700;
     color: #d4a35b;
 }
-
 
 .standing-table tbody tr {
     border-bottom: 1px solid rgba(212, 163, 91, 0.15);
@@ -122,7 +115,6 @@ body {
     vertical-align: middle;
 }
 
-
 .rank-col {
     width: 40px;
     font-weight: 600;
@@ -130,7 +122,6 @@ body {
     padding-left: 20px !important;
     position: relative;
 }
-
 
 .qualified .rank-col::before {
     content: "";
@@ -142,7 +133,6 @@ body {
     background-color: #0f9d58; 
     border-radius: 0 4px 4px 0;
 }
-
 
 .team-name {
     display: flex;
@@ -161,25 +151,30 @@ body {
     display: inline-block;
 }
 
-
 .results-dots {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
+    display: flex !important;
+    gap: 8px !important;
+    justify-content: center !important;
+    align-items: center !important;
+    min-height: 20px;
 }
 
 .dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    display: inline-block;
+    width: 10px !important;
+    height: 10px !important;
+    min-width: 10px !important;
+    min-height: 10px !important;
+    border-radius: 50% !important;
+    display: inline-block !important;
+    box-sizing: border-box;
 }
 
-.dot.win { background-color: #44a94a; }   
-.dot.draw { background-color: #90a7f6; }  
-.dot.loss { background-color: #d32f2f; }  
-.dot.none { background-color: #bdbaba; }  
+.dot.win { background-color: #44a94a !important; }   
+.dot.draw { background-color: #90a7f6 !important; }  
+.dot.loss { background-color: #d32f2f !important; }  
+.dot.none { background-color: #bdbaba !important; }  
 
+/* Banners e información */
 .info-banner {
     display: flex;
     flex-wrap: wrap;
@@ -203,7 +198,6 @@ body {
     margin: 5px 10px;
 }
 
-
 .qualified-indicator {
     width: 5px;
     height: 18px;
@@ -212,7 +206,6 @@ body {
     border-radius: 2px;
     display: inline-block;
 }
-
 
 .legend-dots {
     display: flex;
@@ -227,12 +220,10 @@ body {
     display: inline-block;
 }
 
-
 .dot-legend.win { background-color: #44a94a; }
 .dot-legend.draw { background-color: #90a7f6; }
 .dot-legend.loss { background-color: #d93025; }
 .dot-legend.none { background-color: #bdbaba; border: 1px solid #dadce0; }
-
 
 .floating-sidebar {
     position: fixed;
@@ -285,7 +276,6 @@ body {
     display: inline-block;
     width: 35px; 
 }
-
 
 @media (max-width: 1400px) {
     .floating-sidebar {
