@@ -3,8 +3,8 @@ Pagina Web sobre el Mundial de futbol para el presidente de la FIFA Gianni Infan
 Proyecto diseñado en Figma como prototipo de lo que será la página web a desarrollar utilizando diferentes herramientas.
 
 ## 🖼️ Vista previa
-![Página de inicio - Fulgor de la Copa](
-)
+![Página de inicio - Fulgor de la Copa](img/captura pantalla.PNG)
+
 
 ## 🌐 API
 Este proyecto consume una API externa de fútbol para obtener datos reales (partidos, resultados, clasificaciones, etc.), utilizada **exclusivamente con fines educativos** en el marco de este bootcamp. No tiene fines comerciales ni de producción.
