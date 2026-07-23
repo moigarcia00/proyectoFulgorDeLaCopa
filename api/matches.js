@@ -1,19 +1,28 @@
 export default async function handler(request, response) {
-  response.setHeader('Access-Control-Allow-Origin', '*');
-  response.setHeader('Access-Control-Allow-Methods', 'GET');
-  response.setHeader('Content-Type', 'application/json');
+  response.setHeader("Access-Control-Allow-Origin", "*");
+  response.setHeader("Access-Control-Allow-Methods", "GET");
+  response.setHeader("Content-Type", "application/json");
 
   const apiKey = process.env.FOOTBALL_API_KEY;
   if (!apiKey) {
-    return response.status(500).json({ 
-      error: "Error del sistema: Falta configurar la variable FOOTBALL_API_KEY en los ajustes de Vercel." 
+    return response.status(500).json({
+      error:
+        "Error del sistema: Falta configurar la variable FOOTBALL_API_KEY en los ajustes de Vercel.",
     });
   }
 
-  const endpointType = request.query.endpoint || 'matches';
-  const externalUrl = endpointType === 'scorers'
-    ? "https://api.football-data.org/v4/competitions/WC/scorers?season=2026"
-    : "https://api.football-data.org/v4/competitions/WC/matches?season=2026";
+  const endpointType = request.query.endpoint || "matches";
+
+  let externalUrl =
+    "https://api.football-data.org/v4/competitions/WC/matches?season=2026";
+
+  if (endpointType === "scorers") {
+    externalUrl =
+      "https://api.football-data.org/v4/competitions/WC/scorers?season=2026";
+  } else if (endpointType === "standings" || endpointType === "clasification") {
+    externalUrl =
+      "https://api.football-data.org/v4/competitions/WC/standings?season=2026";
+  }
 
   try {
     const apiResponse = await fetch(externalUrl, {
@@ -22,8 +31,8 @@ export default async function handler(request, response) {
     });
 
     if (!apiResponse.ok) {
-      return response.status(apiResponse.status).json({ 
-        error: `Error proveniente de la API externa (${apiResponse.status})` 
+      return response.status(apiResponse.status).json({
+        error: `Error proveniente de la API externa (${apiResponse.status})`,
       });
     }
 
